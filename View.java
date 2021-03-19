@@ -1,7 +1,9 @@
 import java.awt.Graphics;
 import javax.swing.*;
+import java.awt.event.*;
+import java.awt.Color;
 
-public class View extends JFrame {
+public class View extends JFrame implements ActionListener {
     Model model;
 
     View(Controller c, Model m) {
@@ -20,11 +22,18 @@ public class View extends JFrame {
         MyPanel(Controller c) {
             super();
             controller = c;
+            setOpaque(true);
+            setBackground(Color.cyan);
+            addMouseListener(controller);
         }
 
         @Override public void paintComponent(Graphics g) {
             super.paintComponent(g);
             g.drawLine(0, 0, getWidth(), getHeight());
         }
+    }
+
+    public void actionPerformed(ActionEvent e) {
+        System.out.println("Detected action!");
     }
 }
