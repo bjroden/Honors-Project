@@ -9,18 +9,26 @@ public class View extends JFrame implements ActionListener {
     View(Controller c, Model m) {
         model = m;
 
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setSize(800, 800);
+
+        JMenuBar menuBar = new JMenuBar();
+        add(menuBar);
+        JMenu menu1 = new JMenu("Foo");
+        menuBar.add(menu1);
+        setJMenuBar(menuBar);
+        JMenu menu2 = new JMenu("Foo2");
+        menuBar.add(menu2);
+
         MyPanel panel = new MyPanel(c);
         add(panel);
 
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
-        setSize(800, 800);
         setVisible(true);
     }
     
     private class MyPanel extends JPanel {
         Controller controller;
         MyPanel(Controller c) {
-            super();
             controller = c;
             setOpaque(true);
             setBackground(Color.cyan);
@@ -34,6 +42,6 @@ public class View extends JFrame implements ActionListener {
     }
 
     public void actionPerformed(ActionEvent e) {
-        System.out.println("Detected action!");
+        repaint();
     }
 }
