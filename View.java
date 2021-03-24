@@ -12,18 +12,30 @@ public class View extends JFrame implements ActionListener {
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setSize(800, 800);
 
-        JMenuBar menuBar = new JMenuBar();
-        add(menuBar);
-        JMenu menu1 = new JMenu("Foo");
-        menuBar.add(menu1);
-        setJMenuBar(menuBar);
-        JMenu menu2 = new JMenu("Foo2");
-        menuBar.add(menu2);
+        initMenu();
 
         MyPanel panel = new MyPanel(c);
         add(panel);
 
         setVisible(true);
+    }
+
+    private void initMenu() {
+        JMenuBar menuBar = new JMenuBar();
+        add(menuBar);
+
+        JMenu gameMenu = new JMenu("Game Options");
+        menuBar.add(gameMenu);
+        setJMenuBar(menuBar);
+        JMenuItem pauseItem = new JMenuItem("Pause");
+        pauseItem.addActionListener(this);
+        gameMenu.add(pauseItem);
+        JMenuItem saveItem = new JMenuItem("Save");
+        saveItem.addActionListener(this);
+        gameMenu.add(saveItem);
+        JMenuItem loadItem = new JMenuItem("Load");
+        loadItem.addActionListener(this);
+        gameMenu.add(loadItem);
     }
     
     private class MyPanel extends JPanel {
@@ -42,6 +54,7 @@ public class View extends JFrame implements ActionListener {
     }
 
     public void actionPerformed(ActionEvent e) {
+        System.out.println("Action detected!");
         repaint();
     }
 }
