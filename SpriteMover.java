@@ -1,15 +1,13 @@
 public class SpriteMover implements Runnable{
-    Model model;
-    View view;
+    Controller controller;
 
-    SpriteMover(View v, Model m) {
-        view = v;
-        model = m;
+    SpriteMover(Controller c) {
+        controller = c;
     }
 
     public void run() {
         while(true) {
-            if (!model.isPaused()) {
+            if (!controller.getPaused()) {
                 moveTest();
             }
             try {
@@ -19,8 +17,7 @@ public class SpriteMover implements Runnable{
     }
 
     private void moveTest() {
-        model.update();
-        view.repaint();
+        controller.update();
     }
     
 }

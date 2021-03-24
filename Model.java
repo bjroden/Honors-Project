@@ -1,6 +1,6 @@
 import java.awt.event.ActionEvent;
 public class Model {
-    private boolean paused;
+    public boolean paused;
 
     Model() {
         paused = false;
@@ -8,10 +8,6 @@ public class Model {
 
     public void update() {
         System.out.println("Updating!");
-    }
-
-    public boolean isPaused() {
-        return paused;
     }
 
 }
