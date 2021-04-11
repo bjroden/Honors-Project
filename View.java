@@ -1,4 +1,5 @@
 import java.awt.Graphics;
+import java.util.*;
 import javax.swing.*;
 import java.awt.event.*;
 import java.awt.Color;
@@ -73,6 +74,13 @@ public class View extends JFrame implements ActionListener {
         @Override public void paintComponent(Graphics g) {
             super.paintComponent(g);
             g.drawLine(0, 0, getWidth(), getHeight());
+
+            Iterator<Sprite> iter = model.getSprites().iterator();
+            while(iter.hasNext()) {
+                Sprite x = iter.next();
+                g.drawImage(x.getImage(), x.getX(), x.getY(), x.getWidth(), x.getHeight(), null);
+            }
         }
     }
+
 }

@@ -1,5 +1,9 @@
 import java.awt.event.*;
 
+import javax.swing.JFileChooser;
+
+import java.awt.Component.*;
+
 public class Controller implements MouseListener, ActionListener {
     Model model;
     View view;
@@ -38,6 +42,8 @@ public class Controller implements MouseListener, ActionListener {
     //Perform appropriate button action
     public void actionPerformed(ActionEvent e) {
         //TODO: implement
+        boolean prevPaused = model.paused;
+        final JFileChooser fc = new JFileChooser("./");
         switch(e.getActionCommand()) {
             case "Pause":
                 model.paused = !model.paused;
@@ -45,12 +51,21 @@ public class Controller implements MouseListener, ActionListener {
                 break;
             case "Save":
                 System.out.println("Saving game");
+                model.paused = true;
+                if (fc.showSaveDialog(view) == JFileChooser.APPROVE_OPTION) {
+                    model.saveGame(fc.getSelectedFile());
+                }
+                model.paused = prevPaused;
                 break;
             case "Load":
                 System.out.println("Loading game");
+                model.paused = true;
+                if (fc.showOpenDialog(view) == JFileChooser.APPROVE_OPTION) {
+                    model.loadGame(fc.getSelectedFile());
+                }
+                model.paused = prevPaused;
                 break;
             case "Instructions":
-                boolean prevPaused = model.paused;
                 model.paused = true;
                 view.displayInstructions();
                 model.paused = prevPaused;
