@@ -3,6 +3,7 @@ import java.util.*;
 import javax.swing.*;
 import java.awt.event.*;
 import java.awt.Color;
+import java.awt.MouseInfo;
 
 public class View extends JFrame implements ActionListener {
     Model model;
@@ -47,6 +48,9 @@ public class View extends JFrame implements ActionListener {
         JMenuItem instructionsItem = new JMenuItem("Instructions");
         instructionsItem.addActionListener(c);
         helpMenu.add(instructionsItem);
+        JMenuItem aboutItem = new JMenuItem("About");
+        aboutItem.addActionListener(c);
+        helpMenu.add(aboutItem);
     }
 
     public void displayInstructions() {
@@ -75,11 +79,17 @@ public class View extends JFrame implements ActionListener {
             super.paintComponent(g);
             g.drawLine(0, 0, getWidth(), getHeight());
 
+            Ball ball = model.getBall();
+            g.drawImage(ball.getImage(), ball.getX(), ball.getY(), ball.getWidth(), ball.getHeight(), null);
+            if (model.getBallClicked()) {
+                g.drawLine(ball.getX(), ball.getY(), (int) MouseInfo.getPointerInfo().getLocation().getX(), (int) MouseInfo.getPointerInfo().getLocation().getY());
+            }
             Iterator<Sprite> iter = model.getSprites().iterator();
             while(iter.hasNext()) {
                 Sprite x = iter.next();
                 g.drawImage(x.getImage(), x.getX(), x.getY(), x.getWidth(), x.getHeight(), null);
             }
+
         }
     }
 

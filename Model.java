@@ -1,17 +1,21 @@
 import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 import java.util.Iterator;
+import javax.swing.JOptionPane;
 import java.io.*;
+import java.awt.Point;
 
 public class Model {
     private ArrayList<Sprite> sprites;
+    private Ball ball;
+    private boolean ballClicked;
     public boolean paused;
 
     Model() {
         sprites = new ArrayList<Sprite>();
-        //TODO: Remove this later
-        sprites.add(new test());
         paused = false;
+        ballClicked = false;
+        ball = new Ball();
     }
 
     public void saveGame(File file) {
@@ -20,32 +24,41 @@ public class Model {
                 Iterator<Sprite> iter = sprites.iterator();
                 while(iter.hasNext()) {
                     Sprite x = iter.next();
-                    //TODO: replace with more fleshed out code
-                    writer.write("nostalgiaCriticDevil.jpg, " + x.getX() + " " + x.getY() + " " + x.getHeight() + " " + x.getWidth() + "\n");
+                    //TODO: add other types
+                    writer.write("Test " + x.getX() + " " + x.getY() + " " + x.getHeight() + " " + x.getWidth() + "\n");
                 }
             }
         }
         catch(IOException e) {
-            System.out.println("File not found");
+            JOptionPane.showMessageDialog(null, e.getMessage());
         }
     }
     
     public void loadGame(File file) {
         try(BufferedReader reader = new BufferedReader(new FileReader(file))) {
-            synchronized(sprites) {
-                sprites.clear();
-                //TODO: Replace with more fleshed out code
-                String sprite = reader.readLine();
-                sprites.add(new test());
-                String[] nums = sprite.split("\\s+");
-                sprites.get(0).setX(Integer.parseInt(nums[1]));
-                sprites.get(0).setY(Integer.parseInt(nums[2]));
-                sprites.get(0).setHeight(Integer.parseInt(nums[3]));
-                sprites.get(0).setWidth(Integer.parseInt(nums[4]));
+            ArrayList<Sprite> newSprites = new ArrayList<Sprite>();
+            String line;
+            //TODO: add other types
+            while ((line = reader.readLine()) != null) {
+                String[] nums = line.split("\\s+");
+                switch(nums[0]) {
+                    case "Test":
+                        test spriteToAdd = new test();
+                        spriteToAdd.setX(Integer.parseInt(nums[1]));
+                        spriteToAdd.setY(Integer.parseInt(nums[2]));
+                        spriteToAdd.setHeight(Integer.parseInt(nums[3]));
+                        spriteToAdd.setWidth(Integer.parseInt(nums[4]));
+                        newSprites.add(spriteToAdd);
+                        break;
+                    default:
+                        throw new IOException("Error reading file contents");
+                }
             }
+            //TODO: check more first
+            sprites = newSprites;
         }
         catch(IOException e) {
-            System.out.println("File not found");
+            JOptionPane.showMessageDialog(null, e.getMessage());
         }
 
     }
@@ -62,5 +75,24 @@ public class Model {
 
     public ArrayList<Sprite> getSprites() {
         return sprites;
+    }
+
+    public void setBallClicked(Point info) {
+        boolean withinX = (info.getX() > ball.getX() && info.getX() < ball.getX() + ball.getWidth());
+        boolean withinY = (info.getY() > ball.getY() && info.getY() < ball.getY() + ball.getHeight());
+        ballClicked = (withinX && withinY);
+    }
+
+    public void ballReleased() {
+        //TODO:
+        ballClicked = false;
+    }
+
+    public boolean getBallClicked() {
+        return ballClicked;
+    }
+
+    public Ball getBall() {
+        return ball;
     }
 }

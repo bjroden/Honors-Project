@@ -1,8 +1,8 @@
 import java.awt.event.*;
-
 import javax.swing.JFileChooser;
-
+import javax.swing.JOptionPane;
 import java.awt.Component.*;
+import java.awt.MouseInfo;
 
 public class Controller implements MouseListener, ActionListener {
     Model model;
@@ -31,10 +31,13 @@ public class Controller implements MouseListener, ActionListener {
 
     }
     public void mouseReleased(MouseEvent e) {
+        model.ballReleased();
 
     }
     public void mousePressed(MouseEvent e) {
-
+        //TODO: get mouse relative to jframe, not desktop
+        System.out.println(MouseInfo.getPointerInfo().getLocation().x + " " + MouseInfo.getPointerInfo().getLocation().y);
+        model.setBallClicked(MouseInfo.getPointerInfo().getLocation());
     }
     public void mouseClicked(MouseEvent e) {
 
@@ -68,6 +71,11 @@ public class Controller implements MouseListener, ActionListener {
             case "Instructions":
                 model.paused = true;
                 view.displayInstructions();
+                model.paused = prevPaused;
+                break;
+            case "About":
+                model.paused = true;
+                JOptionPane.showMessageDialog(null, "CSCE 3193H Honors Project\n\nAuthor: Brian Roden\nTerm: Spring 2021");
                 model.paused = prevPaused;
                 break;
             default:
