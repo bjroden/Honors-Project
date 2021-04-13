@@ -41,7 +41,7 @@ class Sprite
 	}
 	public Image getImage() { return image; }	
 	
-	public void updateState(int height, int width) {
+	public void updateState() {
 
 	}
 

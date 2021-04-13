@@ -77,13 +77,18 @@ public class View extends JFrame implements ActionListener {
 
         @Override public void paintComponent(Graphics g) {
             super.paintComponent(g);
+            //TODO: remove later, with blue background too
             g.drawLine(0, 0, getWidth(), getHeight());
 
+            //Draw ball, and line if being held
             Ball ball = model.getBall();
             g.drawImage(ball.getImage(), ball.getX(), ball.getY(), ball.getWidth(), ball.getHeight(), null);
             if (model.getBallClicked()) {
-                g.drawLine(ball.getX(), ball.getY(), (int) MouseInfo.getPointerInfo().getLocation().getX(), (int) MouseInfo.getPointerInfo().getLocation().getY());
+                int mouseX = (int) (- getLocationOnScreen().getX() + MouseInfo.getPointerInfo().getLocation().getX());
+                int mouseY = (int) (- getLocationOnScreen().getY() + MouseInfo.getPointerInfo().getLocation().getY());
+                g.drawLine((ball.getX() + ball.getWidth()) / 2, (ball.getY() + ball.getHeight()) / 2, mouseX, mouseY);
             }
+            //Draw other sprites
             Iterator<Sprite> iter = model.getSprites().iterator();
             while(iter.hasNext()) {
                 Sprite x = iter.next();

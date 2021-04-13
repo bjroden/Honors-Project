@@ -35,9 +35,7 @@ public class Controller implements MouseListener, ActionListener {
 
     }
     public void mousePressed(MouseEvent e) {
-        //TODO: get mouse relative to jframe, not desktop
-        System.out.println(MouseInfo.getPointerInfo().getLocation().x + " " + MouseInfo.getPointerInfo().getLocation().y);
-        model.setBallClicked(MouseInfo.getPointerInfo().getLocation());
+        model.setBallClicked(e.getX(), e.getY());
     }
     public void mouseClicked(MouseEvent e) {
 

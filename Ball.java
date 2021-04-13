@@ -3,7 +3,7 @@ public class Ball extends Sprite {
         super("ball.jpg");
         setX(20);
         setY(20);
-        setWidth(500);
-        setHeight(500);
+        setWidth(100);
+        setHeight(100);
     }
 }

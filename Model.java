@@ -16,6 +16,9 @@ public class Model {
         paused = false;
         ballClicked = false;
         ball = new Ball();
+
+        //TODO: remove later
+        sprites.add(new test());
     }
 
     public void saveGame(File file) {
@@ -66,10 +69,7 @@ public class Model {
     public void update() {
         Iterator<Sprite> iter = sprites.iterator();
         while(iter.hasNext()) {
-            //TODO: do something else with this
-            Sprite x = iter.next();
-            x.setX(x.getX() + 1);
-            x.setY(x.getY() + 1);
+            iter.next().updateState();
         }
     }
 
@@ -77,9 +77,9 @@ public class Model {
         return sprites;
     }
 
-    public void setBallClicked(Point info) {
-        boolean withinX = (info.getX() > ball.getX() && info.getX() < ball.getX() + ball.getWidth());
-        boolean withinY = (info.getY() > ball.getY() && info.getY() < ball.getY() + ball.getHeight());
+    public void setBallClicked(int xcoord, int ycoord) {
+        boolean withinX = (xcoord > ball.getX() && xcoord < ball.getX() + ball.getWidth());
+        boolean withinY = (ycoord > ball.getY() && ycoord < ball.getY() + ball.getHeight());
         ballClicked = (withinX && withinY);
     }
 
