@@ -67,6 +67,8 @@ public class Model {
     }
 
     public void update() {
+        ball.updateState();
+
         Iterator<Sprite> iter = sprites.iterator();
         while(iter.hasNext()) {
             iter.next().updateState();
@@ -84,7 +86,9 @@ public class Model {
     }
 
     public void ballReleased() {
-        //TODO:
+        if(ballClicked) {
+            ball.startMove();
+        }
         ballClicked = false;
     }
 

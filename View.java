@@ -86,7 +86,9 @@ public class View extends JFrame implements ActionListener {
             if (model.getBallClicked()) {
                 int mouseX = (int) (- getLocationOnScreen().getX() + MouseInfo.getPointerInfo().getLocation().getX());
                 int mouseY = (int) (- getLocationOnScreen().getY() + MouseInfo.getPointerInfo().getLocation().getY());
-                g.drawLine((ball.getX() + ball.getWidth()) / 2, (ball.getY() + ball.getHeight()) / 2, mouseX, mouseY);
+                int ballXCenter = ball.getX() + (ball.getWidth() / 2);
+                int ballYCenter = ball.getY() + (ball.getHeight() / 2);
+                g.drawLine(ballXCenter, ballYCenter, mouseX, mouseY);
             }
             //Draw other sprites
             Iterator<Sprite> iter = model.getSprites().iterator();
