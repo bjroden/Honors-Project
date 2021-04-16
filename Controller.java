@@ -31,7 +31,7 @@ public class Controller implements MouseListener, ActionListener {
 
     }
     public void mouseReleased(MouseEvent e) {
-        model.ballReleased();
+        model.ballReleased(e.getX(), e.getY());
 
     }
     public void mousePressed(MouseEvent e) {

@@ -8,10 +8,10 @@ import java.io.IOException;
 class Sprite
 {
 	private String jpgName;
-	private int locationX;
-	private int locationY;
-    private int height;
-    private int width;
+	protected int locationX;
+	protected int locationY;
+    protected int height;
+    protected int width;
 	private Image image;
 
 	public Sprite(String jpgName)

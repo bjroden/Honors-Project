@@ -23,6 +23,8 @@ public class Model {
 
     public void saveGame(File file) {
         try(BufferedWriter writer = new BufferedWriter(new FileWriter(file))) {
+            writer.write("Ball " + ball.getX() + " " + ball.getY() + " " + ball.getHeight() + " " + ball.getWidth() + " " + ball.getMoving() + " " + ball.getMoveXRatio() + " " + ball.getMoveYRatio() + " "  + ball.getMovePower() + "\n");
+            
             synchronized(sprites) {
                 Iterator<Sprite> iter = sprites.iterator();
                 while(iter.hasNext()) {
@@ -41,9 +43,31 @@ public class Model {
         try(BufferedReader reader = new BufferedReader(new FileReader(file))) {
             ArrayList<Sprite> newSprites = new ArrayList<Sprite>();
             String line;
+            String[] nums;
+            Ball newBall;
+            
+            line = reader.readLine();
+            nums = line.split("\\s+");
+            if (nums.length == 0 || !nums[0].equals("Ball")) {
+                throw new IOException("Error reading file: Ball not found");
+            }
+            else {
+                //TODO: catch exception
+                int ballX = Integer.parseInt(nums[1]);
+                int ballY = Integer.parseInt(nums[2]);
+                int ballHeight = Integer.parseInt(nums[3]);
+                int ballWidth = Integer.parseInt(nums[4]);
+                boolean ballMoving = Boolean.parseBoolean(nums[5]) ;
+                double moveX = Double.parseDouble(nums[6]); 
+                double moveY = Double.parseDouble(nums[7]); 
+                int movePower = Integer.parseInt(nums[8]);
+
+                newBall = new Ball(ballX, ballY, ballHeight, ballWidth, ballMoving, moveX, moveY, movePower);
+            }
+
             //TODO: add other types
             while ((line = reader.readLine()) != null) {
-                String[] nums = line.split("\\s+");
+                nums = line.split("\\s+");
                 switch(nums[0]) {
                     case "Test":
                         test spriteToAdd = new test();
@@ -58,6 +82,7 @@ public class Model {
                 }
             }
             //TODO: check more first
+            ball = newBall;
             sprites = newSprites;
         }
         catch(IOException e) {
@@ -85,9 +110,9 @@ public class Model {
         ballClicked = (withinX && withinY);
     }
 
-    public void ballReleased() {
+    public void ballReleased(int mouseX, int mouseY) {
         if(ballClicked) {
-            ball.startMove();
+            ball.startMove(mouseX, mouseY);
         }
         ballClicked = false;
     }
