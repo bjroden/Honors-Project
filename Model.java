@@ -10,15 +10,17 @@ public class Model {
     private Ball ball;
     private boolean ballClicked;
     public boolean paused;
+    private int startBallx;
+    private int startBally;
+    private int currentLevel;
+
 
     Model() {
         sprites = new ArrayList<Sprite>();
         paused = false;
         ballClicked = false;
-        ball = new Ball();
 
-        //TODO: remove later
-        sprites.add(new test());
+        loadLevel(1);
     }
 
     public void saveGame(File file) {
@@ -92,12 +94,30 @@ public class Model {
     }
 
     public void update() {
+        synchronized(sprites) {
+            Iterator<Sprite> iter = sprites.iterator();
+            while(iter.hasNext()) {
+                iter.next().updateState();
+            }
+        }
+
         ball.updateState();
 
-        Iterator<Sprite> iter = sprites.iterator();
-        while(iter.hasNext()) {
-            iter.next().updateState();
+        synchronized(sprites) {
+            Iterator<Sprite> iter = sprites.iterator();
+            while(iter.hasNext()) {
+                Sprite s = iter.next();
+                if(ball.overlaps(s)) {
+                    if(s instanceof RedZone) {
+                        resetBall();
+                    }
+                }
+            }
         }
+    }
+
+    private void resetBall() {
+        ball = new Ball(startBallx, startBally);
     }
 
     public ArrayList<Sprite> getSprites() {
@@ -123,5 +143,27 @@ public class Model {
 
     public Ball getBall() {
         return ball;
+    }
+
+    public void loadLevel(int level) {
+        switch(level) {
+            case 1:
+                setLevel(1);
+                startBallx = 200;
+                startBally = 200;
+                ball = new Ball(startBallx, startBally);
+                sprites.add(new RedZone(300, 300, 200, 100));
+                break;
+            default:
+                boolean prevPaused = paused;
+                paused = true;
+                JOptionPane.showMessageDialog(null, "Could not find level being loaded");
+                paused = prevPaused;
+
+        }
+    }
+
+    public void setLevel(int level) {
+        currentLevel = level;
     }
 }

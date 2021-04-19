@@ -4,12 +4,12 @@ public class Ball extends Sprite {
     private double moveYRatio;
     private int movePower;
 
-    Ball() {
+    Ball(int x, int y) {
         super("ball.jpg");
-        setX(200);
-        setY(200);
-        setWidth(100);
-        setHeight(100);
+        setX(x);
+        setY(y);
+        setWidth(60);
+        setHeight(60);
 
         moving = false;
         moveXRatio = 0;

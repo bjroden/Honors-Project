@@ -45,9 +45,10 @@ class Sprite
 
 	}
 
+	//TODO: double check that this is fixed
 	public boolean overlaps(Sprite s) {
-		boolean xOverlap = (this.getX() + 60 > s.getX() && s.getX() + 60 > this.getX());
-		boolean yOverlap = (this.getY() + 60 > s.getY() && s.getY() + 60 > this.getY());
+		boolean xOverlap = (this.getX() + this.getWidth() > s.getX() && s.getX() + s.getWidth() > this.getX());
+		boolean yOverlap = (this.getY() + this.getHeight() > s.getY() && s.getY() + s.getHeight() > this.getY());
 		return (xOverlap && yOverlap);
 	}
 }
