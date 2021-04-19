@@ -3,8 +3,12 @@ import java.awt.Graphics;
 public class BiggerSprite extends Sprite {
     final private static int boundIncrease = 10;
 
-    BiggerSprite(String imagePath) {
+    BiggerSprite(String imagePath, int x, int y, int height, int width) {
         super(imagePath);
+        setX(x);
+        setY(y);
+        setHeight(height);
+        setWidth(width);
     }
     
     //Image is bigger than hitbox to look less janky

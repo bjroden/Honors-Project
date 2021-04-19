@@ -13,12 +13,14 @@ public class Model {
     private int startBallx;
     private int startBally;
     private int currentLevel;
+    private int numTargets;
 
 
     Model() {
         sprites = new ArrayList<Sprite>();
         paused = false;
         ballClicked = false;
+        numTargets = 0;
 
         loadLevel(1);
     }
@@ -111,6 +113,16 @@ public class Model {
                     if(s instanceof RedZone) {
                         resetBall();
                     }
+                    else if(s instanceof Target) {
+                        removeTarget(s);
+                    }
+                    else if(s instanceof Goal) {
+                        if(numTargets <= 0) {
+                            loadLevel(currentLevel + 1);
+                            //TODO: Dirty hack
+                            return;
+                        }
+                    }
                 }
             }
         }
@@ -148,23 +160,51 @@ public class Model {
     }
 
     public void loadLevel(int level) {
+        paused = true;
         switch(level) {
             case 1:
-                setLevel(1);
+                JOptionPane.showMessageDialog(null, "Level 1");
+                currentLevel = 1;
                 startBallx = 200;
                 startBally = 200;
                 ball = new Ball(startBallx, startBally);
-                sprites.add(new RedZone(300, 300, 200, 100));
+                synchronized(sprites) {
+                    sprites.clear();
+                    sprites.add(new RedZone(300, 300, 200, 100));
+                    sprites.add(new Target(100, 100, 100, 100));
+                    sprites.add(new Goal(500, 100, 50, 50));
+                }
+                break;
+            case 2:
+                JOptionPane.showMessageDialog(null, "Level 2");
+                currentLevel = 1;
+                startBallx = 200;
+                startBally = 200;
+                ball = new Ball(startBallx, startBally);
+                synchronized(sprites) {
+                    sprites.clear();
+                    sprites.add(new RedZone(200, 300, 200, 100));
+                    sprites.add(new Target(500, 100, 100, 100));
+                    sprites.add(new Goal(500, 100, 50, 50));
+                }
                 break;
             default:
-                boolean prevPaused = paused;
-                paused = true;
                 JOptionPane.showMessageDialog(null, "Could not find level being loaded");
-                paused = prevPaused;
         }
+        paused = false;
     }
 
-    public void setLevel(int level) {
-        currentLevel = level;
+    public void removeTarget(Sprite s) {
+        sprites.remove(s);
+        numTargets -= 1;
+        if (numTargets <= 0) {
+            Iterator<Sprite> iter = sprites.iterator();
+            while(iter.hasNext()) {
+                Sprite x = iter.next();
+                if(x instanceof Goal) {
+                    ((Goal) x).setReady();
+                }
+            }
+        }
     }
 }

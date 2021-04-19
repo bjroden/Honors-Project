@@ -82,6 +82,11 @@ public class View extends JFrame implements ActionListener {
             g.drawLine(0, 0, getWidth(), getHeight());
 
             //Draw ball, and line if being held
+            //Draw other sprites
+            Iterator<Sprite> iter = model.getSprites().iterator();
+            while(iter.hasNext()) {
+                iter.next().drawSprite(g);
+            }
             Ball ball = model.getBall();
             ball.drawSprite(g);
             if (model.getBallClicked()) {
@@ -91,12 +96,6 @@ public class View extends JFrame implements ActionListener {
                 int ballYCenter = ball.getY() + (ball.getHeight() / 2);
                 g.drawLine(ballXCenter, ballYCenter, mouseX, mouseY);
             }
-            //Draw other sprites
-            Iterator<Sprite> iter = model.getSprites().iterator();
-            while(iter.hasNext()) {
-                iter.next().drawSprite(g);
-            }
-
         }
     }
 
