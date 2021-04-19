@@ -93,8 +93,7 @@ public class View extends JFrame implements ActionListener {
             //Draw other sprites
             Iterator<Sprite> iter = model.getSprites().iterator();
             while(iter.hasNext()) {
-                Sprite x = iter.next();
-                g.drawImage(x.getImage(), x.getX(), x.getY(), x.getWidth(), x.getHeight(), null);
+                iter.next().drawSprite(g);
             }
 
         }

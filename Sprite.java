@@ -45,6 +45,10 @@ class Sprite
 
 	}
 
+	public void drawSprite(Graphics g) {
+        g.drawImage(getImage(), getX(), getY(), getWidth(), getHeight(), null);
+	}
+
 	//TODO: double check that this is fixed
 	public boolean overlaps(Sprite s) {
 		boolean xOverlap = (this.getX() + this.getWidth() > s.getX() && s.getX() + s.getWidth() > this.getX());

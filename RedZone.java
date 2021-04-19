@@ -1,4 +1,4 @@
-public class RedZone extends Sprite {
+public class RedZone extends BiggerSprite {
     RedZone(int x, int y, int height, int width) {
         super("redSquare.png");
         setX(x);
