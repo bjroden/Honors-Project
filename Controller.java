@@ -4,7 +4,7 @@ import javax.swing.JOptionPane;
 import java.awt.Component.*;
 import java.awt.MouseInfo;
 
-public class Controller implements MouseListener, ActionListener {
+public class Controller implements MouseListener, KeyListener, ActionListener {
     Model model;
     View view;
 
@@ -40,6 +40,27 @@ public class Controller implements MouseListener, ActionListener {
     public void mouseClicked(MouseEvent e) {
 
     }
+    public void keyPressed(KeyEvent e) {
+    }
+    public void keyReleased(KeyEvent e) {
+
+    }
+    public void keyTyped(KeyEvent e) {
+        switch(e.getKeyChar()) {
+            case 'p':
+                actionPerformed(new ActionEvent(this, ActionEvent.ACTION_PERFORMED, "Pause"));
+                break;
+            case 's':
+                actionPerformed(new ActionEvent(this, ActionEvent.ACTION_PERFORMED, "Save"));
+                break;
+            case 'l':
+                actionPerformed(new ActionEvent(this, ActionEvent.ACTION_PERFORMED, "Load"));
+                break;
+            default:
+        }
+    }
+
+
     //Perform appropriate button action
     public void actionPerformed(ActionEvent e) {
         //TODO: implement

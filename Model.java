@@ -125,9 +125,11 @@ public class Model {
     }
 
     public void setBallClicked(int xcoord, int ycoord) {
-        boolean withinX = (xcoord > ball.getX() && xcoord < ball.getX() + ball.getWidth());
-        boolean withinY = (ycoord > ball.getY() && ycoord < ball.getY() + ball.getHeight());
-        ballClicked = (withinX && withinY);
+        if (!paused) {
+            boolean withinX = (xcoord > ball.getX() && xcoord < ball.getX() + ball.getWidth());
+            boolean withinY = (ycoord > ball.getY() && ycoord < ball.getY() + ball.getHeight());
+            ballClicked = (withinX && withinY);
+        }
     }
 
     public void ballReleased(int mouseX, int mouseY) {
@@ -159,7 +161,6 @@ public class Model {
                 paused = true;
                 JOptionPane.showMessageDialog(null, "Could not find level being loaded");
                 paused = prevPaused;
-
         }
     }
 

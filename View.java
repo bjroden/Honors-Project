@@ -11,6 +11,7 @@ public class View extends JFrame implements ActionListener {
     //Initialize main window
     View(Controller c, Model m) {
         model = m;
+        addKeyListener(c);
 
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setSize(800, 800);
