@@ -82,7 +82,7 @@ public class View extends JFrame implements ActionListener {
 
             //Draw ball, and line if being held
             Ball ball = model.getBall();
-            g.drawImage(ball.getImage(), ball.getX(), ball.getY(), ball.getWidth(), ball.getHeight(), null);
+            ball.drawSprite(g);
             if (model.getBallClicked()) {
                 int mouseX = (int) (- getLocationOnScreen().getX() + MouseInfo.getPointerInfo().getLocation().getX());
                 int mouseY = (int) (- getLocationOnScreen().getY() + MouseInfo.getPointerInfo().getLocation().getY());
