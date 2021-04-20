@@ -162,7 +162,6 @@ public class Model {
     public void loadLevel(int level) {
         paused = true;
         switch(level) {
-            //TODO: clean up SetTarget code
             case 1:
                 JOptionPane.showMessageDialog(null, "Level 1");
                 currentLevel = 1;
