@@ -162,6 +162,7 @@ public class Model {
     public void loadLevel(int level) {
         paused = true;
         switch(level) {
+            //TODO: clean up SetTarget code
             case 1:
                 JOptionPane.showMessageDialog(null, "Level 1");
                 currentLevel = 1;
@@ -185,12 +186,13 @@ public class Model {
                     sprites.clear();
                     sprites.add(new RedZone(200, 300, 200, 100));
                     sprites.add(new Target(500, 100, 100, 100));
-                    sprites.add(new Goal(500, 100, 50, 50));
+                    sprites.add(new Goal(100, 100, 50, 50));
                 }
                 break;
             default:
                 JOptionPane.showMessageDialog(null, "Could not find level being loaded");
         }
+        setNumTargets();
         paused = false;
     }
 
@@ -198,12 +200,30 @@ public class Model {
         sprites.remove(s);
         numTargets -= 1;
         if (numTargets <= 0) {
-            Iterator<Sprite> iter = sprites.iterator();
-            while(iter.hasNext()) {
-                Sprite x = iter.next();
-                if(x instanceof Goal) {
-                    ((Goal) x).setReady();
-                }
+            readyGoals();
+        }
+    }
+
+    public void setNumTargets() {
+        int newNumTargets = 0;
+        Iterator<Sprite> iter = sprites.iterator();
+        while(iter.hasNext()) {
+            if(iter.next() instanceof Target) {
+                newNumTargets++;
+            }
+        }
+        numTargets = newNumTargets;
+        if (numTargets <= 0) {
+            readyGoals();
+        }
+    }
+
+    public void readyGoals() {
+        Iterator<Sprite> iter = sprites.iterator();
+        while(iter.hasNext()) {
+            Sprite x = iter.next();
+            if(x instanceof Goal) {
+                ((Goal) x).setReady();
             }
         }
     }
