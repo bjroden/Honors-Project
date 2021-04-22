@@ -1,39 +1,15 @@
-public class Ball extends Sprite {
-    private boolean moving;
-    private double moveXRatio;
-    private double moveYRatio;
-    private int movePower;
+import java.awt.Graphics;
+
+public class Ball extends MovingSprite {
+    final private static int boundIncrease = 10;
 
     Ball(int x, int y) {
-        super("ball.jpg");
-        setX(x);
-        setY(y);
-        setWidth(60);
-        setHeight(60);
-
-        moving = false;
-        moveXRatio = 0;
-        moveYRatio = 0;
-        movePower = 0;
+        super("ball.jpg", x, y, 60, 60);
     }
 
-    Ball(int x, int y, int height, int width,  boolean moving, double xRatio, double yRatio, int power) {
-        super("ball.jpg");
-
-        this.locationX = x;
-        this.locationY = y;
-        this.width = width;
-        this.height = height;
-        this.moving = moving;
-        this.moveXRatio = xRatio;
-        this.moveYRatio = yRatio;
-        this.movePower = power;
+    Ball(int x, int y, int height, int width, boolean moving, double xRatio, double yRatio, int power) {
+        super("ball.jpg", x, y, height, width, moving, xRatio, yRatio, power);
     }
-
-    public boolean getMoving() { return moving; }
-    public double getMoveXRatio() { return moveXRatio; }
-    public double getMoveYRatio() { return moveYRatio; }
-    public int getMovePower() { return movePower; }
 
     public void startMove(int mouseX, int mouseY) {
         int maxX = 20;
@@ -62,22 +38,17 @@ public class Ball extends Sprite {
     }
 
     @Override public void updateState() {
-        if(moving) {
-            double multiplier;
-            //TODO: more complex logic
-            if (moveXRatio == 0 && moveYRatio == 0) {
-                multiplier = 0;
-            }
-            else {
-                multiplier =  movePower / ( Math.sqrt(Math.pow(moveXRatio, 2) + Math.pow(moveYRatio, 2)) );
-            }
-            setX(getX() + (int) (multiplier * moveXRatio));
-            setY(getY() + (int) (multiplier * moveYRatio));
-            movePower -= 2;
-        }
-
-        if (movePower <= 0) {
+        super.updateState();
+        if(movePower <= 0) {
             moving = false;
         }
+        else {
+            movePower -= 2;
+        }
+    }
+
+    //Image is bigger than hitbox to look less janky
+    @Override public void drawSprite(Graphics g) {
+        g.drawImage(getImage(), getX() - boundIncrease, getY() - boundIncrease, getWidth() + boundIncrease, getHeight() + boundIncrease, null);
     }
 }

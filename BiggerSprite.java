@@ -4,11 +4,7 @@ public class BiggerSprite extends Sprite {
     final private static int boundIncrease = 10;
 
     BiggerSprite(String imagePath, int x, int y, int height, int width) {
-        super(imagePath);
-        setX(x);
-        setY(y);
-        setHeight(height);
-        setWidth(width);
+        super(imagePath, x, y, height, width);
     }
     
     //Image is bigger than hitbox to look less janky

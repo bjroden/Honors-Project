@@ -22,6 +22,14 @@ class Sprite
         height = 200;
         width = 200;
 	}
+
+	public Sprite(String jpgName, int x, int y, int height, int width) {
+		setImage(jpgName);
+		this.locationX = x;
+		this.locationY = y;
+		this.height = height;
+		this.width = width;
+	}
 	
 	public int getX() {	return locationX; }
 	public int getY() {	return locationY; }
