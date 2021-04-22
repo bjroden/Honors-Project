@@ -119,10 +119,10 @@ public class Model {
                     else if(s instanceof Goal) {
                         if(numTargets <= 0) {
                             loadLevel(currentLevel + 1);
-                            //TODO: Dirty hack
-                            return;
                         }
                     }
+                    //TODO: added to prevent concurrentModification exception, double check 
+                    iter=sprites.iterator();
                 }
             }
         }
@@ -166,12 +166,14 @@ public class Model {
                 JOptionPane.showMessageDialog(null, "Level 1");
                 currentLevel = 1;
                 startBallx = 200;
-                startBally = 200;
+                startBally = 400;
                 ball = new Ball(startBallx, startBally);
                 synchronized(sprites) {
                     sprites.clear();
-                    sprites.add(new RedZone(300, 300, 200, 100));
-                    sprites.add(new Target(100, 100, 100, 100));
+                    sprites.add(new Target(40, 40, 50, 40));
+                    sprites.add(new Target(400, 300, 50, 50, MovingObstacle.XorY.moveY, 20, 100, 500));
+                    sprites.add(new RedZone(100, 500, 100, 100, MovingObstacle.XorY.moveX, 5, 100, 200));
+                    sprites.add(new Target(100, 100, 100, 100, 1, 0, 10, 40, 300, 0, 0));
                     sprites.add(new Goal(500, 100, 50, 50));
                 }
                 break;
