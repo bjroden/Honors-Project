@@ -115,14 +115,18 @@ public class Model {
                     }
                     else if(s instanceof Target) {
                         removeTarget(s);
+                        //TODO: added to prevent concurrentModification exception, double check 
+                        iter=sprites.iterator();
                     }
                     else if(s instanceof Goal) {
                         if(numTargets <= 0) {
                             loadLevel(currentLevel + 1);
+                            return;
                         }
                     }
-                    //TODO: added to prevent concurrentModification exception, double check 
-                    iter=sprites.iterator();
+                    else if(s instanceof Wall) {
+                        ball.bounce(s);
+                    }
                 }
             }
         }
@@ -175,6 +179,7 @@ public class Model {
                     sprites.add(new RedZone(100, 500, 100, 100, MovingObstacle.XorY.moveX, 5, 100, 200));
                     sprites.add(new Target(100, 100, 100, 100, 1, 0, 10, 40, 300, 0, 0));
                     sprites.add(new Goal(500, 100, 50, 50));
+                    sprites.add(new Wall(10, 200, 100, 250, MovingObstacle.XorY.moveX, 10, 0, 500));
                 }
                 break;
             case 2:

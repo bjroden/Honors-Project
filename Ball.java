@@ -12,8 +12,8 @@ public class Ball extends MovingSprite {
     }
 
     public void startMove(int mouseX, int mouseY) {
-        int maxX = 20;
-        int maxY = 20;
+        int maxX = 25;
+        int maxY = 25;
 
         int distX = getX() + (getWidth() / 2) - mouseX;
         int distY = getY() + (getHeight() / 2) - mouseY;
@@ -35,6 +35,18 @@ public class Ball extends MovingSprite {
             moveYRatio = distY / distance;
             movePower = (int) distance;
         }
+    }
+
+    public void bounce(Sprite s) {
+        //TODO: clean this up
+        if(this.getX() > s.getX() && this.getX() < s.getX() + s.getWidth()) {
+            moveYRatio *= -1;
+        }
+        if(this.getY() > s.getY() && this.getY() < s.getY() + s.getHeight()) {
+            moveXRatio *= -1;
+        }
+        //TODO: Get stuck in walls less, probably wanna do something different
+        super.updateState();
     }
 
     @Override public void updateState() {
