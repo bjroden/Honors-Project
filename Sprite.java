@@ -57,6 +57,14 @@ class Sprite
         g.drawImage(getImage(), getX(), getY(), getWidth(), getHeight(), null);
 	}
 
+	public int getCenterX() {
+		return locationX + (width / 2);
+	}
+
+	public int getCenterY() {
+		return locationY + (height / 2);
+	}
+
 	//TODO: double check that this is fixed
 	public boolean overlaps(Sprite s) {
 		boolean xOverlap = (this.getX() + this.getWidth() > s.getX() && s.getX() + s.getWidth() > this.getX());

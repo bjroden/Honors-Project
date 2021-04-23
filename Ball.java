@@ -4,7 +4,7 @@ public class Ball extends MovingSprite {
     final private static int boundIncrease = 10;
 
     Ball(int x, int y) {
-        super("ball.jpg", x, y, 60, 60);
+        super("ball.jpg", x, y, 40, 40);
     }
 
     Ball(int x, int y, int height, int width, boolean moving, double xRatio, double yRatio, int power) {
@@ -38,19 +38,21 @@ public class Ball extends MovingSprite {
     }
 
     public void bounce(Sprite s) {
-        //TODO: clean this up
-        if(this.getX() > s.getX() && this.getX() < s.getX() + s.getWidth()) {
+        //TODO: clean this up, corners can bug out
+        boolean bounced = false;
+        if(this.getCenterX() > s.getX() && this.getCenterX() < s.getX() + s.getWidth()) {
             moveYRatio *= -1;
+            bounced = true;
         }
-        if(this.getY() > s.getY() && this.getY() < s.getY() + s.getHeight()) {
+        else if(this.getCenterY() > s.getY() && this.getY() < s.getCenterY() + s.getHeight()) {
+            moveXRatio *= -1;
+            bounced = true;
+        }
+        if (!bounced) {
+            moveYRatio *= -1;
             moveXRatio *= -1;
         }
-        if(s.getX() > this.getX() && s.getX() < this.getX() + this.getWidth()) {
-            moveYRatio *= -1;
-        }
-        if(s.getY() > this.getY() && s.getY() < this.getY() + this.getHeight()) {
-            moveXRatio *= -1;
-        }
+
         //TODO: Get stuck in walls less, probably wanna do something different
         super.updateState();
     }
