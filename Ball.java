@@ -45,6 +45,12 @@ public class Ball extends MovingSprite {
         if(this.getY() > s.getY() && this.getY() < s.getY() + s.getHeight()) {
             moveXRatio *= -1;
         }
+        if(s.getX() > this.getX() && s.getX() < this.getX() + this.getWidth()) {
+            moveYRatio *= -1;
+        }
+        if(s.getY() > this.getY() && s.getY() < this.getY() + this.getHeight()) {
+            moveXRatio *= -1;
+        }
         //TODO: Get stuck in walls less, probably wanna do something different
         super.updateState();
     }

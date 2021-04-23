@@ -190,9 +190,8 @@ public class Model {
                 ball = new Ball(startBallx, startBally);
                 synchronized(sprites) {
                     sprites.clear();
-                    sprites.add(new RedZone(200, 300, 200, 100));
-                    sprites.add(new Target(500, 100, 100, 100));
-                    sprites.add(new Goal(100, 100, 50, 50));
+                    sprites.add(new Wall(300, 300, 600, 10));
+                    sprites.add(new Goal(100, 100, 50, 100));
                 }
                 break;
             default:
