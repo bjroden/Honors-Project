@@ -56,7 +56,7 @@ public class View extends JFrame implements ActionListener {
 
     public void displayInstructions() {
         //TODO: more descriptive
-        String instructions = "Text goes here";
+        String instructions = "How to play:\n\nClick and drag the ball to launch it. Try to complete the level in as few strokes as possible.\n\nAll targets must be hit before reaching the goal, which will turn from yellow to green when you can exit the level.\n\nRed squares reset the ball to the start, and black squares are walls.";
         JOptionPane.showMessageDialog(this, instructions, "Instructions", JOptionPane.INFORMATION_MESSAGE);
     }
     

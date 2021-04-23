@@ -14,7 +14,7 @@ public class Model {
     private int startBally;
     private int currentLevel;
     private int numTargets;
-
+    private int strokes;
 
     Model() {
         sprites = new ArrayList<Sprite>();
@@ -151,6 +151,7 @@ public class Model {
     public void ballReleased(int mouseX, int mouseY) {
         if(ballClicked) {
             ball.startMove(mouseX, mouseY);
+            strokes++;
         }
         ballClicked = false;
     }
@@ -167,11 +168,32 @@ public class Model {
         paused = true;
         switch(level) {
             case 1:
+                startBallx = 200;
+                startBally = 200;
+                synchronized(sprites) {
+                    sprites.clear();
+                    sprites.add(new Target(250, 250, 30, 30));
+                    sprites.add(new Target(300, 300, 30, 30));
+                    sprites.add(new Target(350, 250, 30, 30));
+                    sprites.add(new Wall(100, 350, 75, 400));
+                    sprites.add(new Goal(400, 150, 75, 100));
+                }
+                break;
+            case 2:
+                startBallx = 300;
+                startBally = 600;
+                synchronized(sprites) {
+                    sprites.clear();
+                    sprites.add(new Wall(200, 0, 800, 50));
+                    sprites.add(new Wall(400, 0, 800, 50));
+                    sprites.add(new RedZone(100, 300, 50, 50, MovingObstacle.XorY.moveX, 15, 100, 500));
+                    sprites.add(new Goal(300, 200, 50, 50));
+                }
+                break;
+            case 999:
                 JOptionPane.showMessageDialog(null, "Level 1");
-                currentLevel = 1;
                 startBallx = 200;
                 startBally = 400;
-                ball = new Ball(startBallx, startBally);
                 synchronized(sprites) {
                     sprites.clear();
                     sprites.add(new Target(40, 40, 50, 40));
@@ -182,12 +204,10 @@ public class Model {
                     sprites.add(new Wall(10, 200, 100, 250));
                 }
                 break;
-            case 2:
+            case 1000:
                 JOptionPane.showMessageDialog(null, "Level 2");
-                currentLevel = 1;
                 startBallx = 200;
                 startBally = 200;
-                ball = new Ball(startBallx, startBally);
                 synchronized(sprites) {
                     sprites.clear();
                     sprites.add(new Wall(300, 300, 600, 50));
@@ -196,7 +216,10 @@ public class Model {
                 break;
             default:
                 JOptionPane.showMessageDialog(null, "Could not find level being loaded");
+                return;
         }
+        currentLevel = level;
+        ball = new Ball(startBallx, startBally);
         setNumTargets();
         paused = false;
     }
@@ -231,5 +254,9 @@ public class Model {
                 ((Goal) x).setReady();
             }
         }
+    }
+
+    public int getStrokes() {
+        return strokes;
     }
 }
