@@ -309,13 +309,25 @@ public class Model {
                 }
                 break;
             case 4:
-                startBallx = 325;
+                startBallx = 525;
                 startBally = 500;
                 synchronized(sprites) {
                     sprites.clear();
-                    sprites.add(new Wall(200, 380, 50, 300));
-                    sprites.add(new LaunchPad(100, 100, 100, 100, LaunchPad.direction.DOWN, 25));
-                    sprites.add(new Goal(285, 240, 140, 20));
+                    sprites.add(new Wall(625, 300, 300, 75));
+                    sprites.add(new Target(575, 425, 30, 30));
+                    sprites.add(new Wall(425, 300, 60, 200));
+                    sprites.add(new Target(525, 375, 30, 30));
+                    sprites.add(new LaunchPad(425, 400, 50, 50, LaunchPad.direction.LEFT, 35));
+                    sprites.add(new Target(0, 400, 30, 30));
+                    sprites.add(new LaunchPad(175, 500, 50, 100, LaunchPad.direction.UP, 25));
+                    sprites.add(new RedZone(75, 300, 50, 40, MovingObstacle.XorY.moveX, 10, 75, 300));
+                    sprites.add(new Wall(225, 25, 60, 200));
+                    sprites.add(new Target(300, 90, 30, 30));
+                    sprites.add(new Wall(325, 200, 60, 200));
+                    sprites.add(new Target(350, 160, 30, 30));
+                    sprites.add(new LaunchPad(450, 110, 50, 50, LaunchPad.direction.RIGHT, 25));
+                    sprites.add(new RedZone(650, 0, 50, 40, MovingObstacle.XorY.moveY, 7, 0, 300));
+                    sprites.add(new Goal(750, 0, 200, 50));
                 }
                 break;
             case 999:
