@@ -25,7 +25,7 @@ public class Model {
         ballClicked = false;
         numTargets = 0;
 
-        loadLevel(3);
+        loadLevel(1);
     }
 
     public void saveGame(File file) {
@@ -282,7 +282,7 @@ public class Model {
                     sprites.add(new Wall(0, 0, 180, 800));
                     sprites.add(new RedZone(450, 550, 25, 25, MovingObstacle.XorY.moveY, 5, 400, 550));
                     sprites.add(new RedZone(450, 200, 25, 25, MovingObstacle.XorY.moveY, 7, 200, 400));
-                    sprites.add(new Target(450, 400, 25, 25, MovingObstacle.XorY.moveX, 15, 450, 700));
+                    sprites.add(new Target(450, 400, 30, 30, MovingObstacle.XorY.moveX, 15, 450, 700));
                     sprites.add(new Target(125, 500, 30, 30));
                     sprites.add(new Target(150, 300, 30, 30));
                     sprites.add(new Target(225, 450, 30, 30));
@@ -318,10 +318,10 @@ public class Model {
                 JOptionPane.showMessageDialog(null, "Could not find level being loaded");
                 return;
         }
-        currentLevel = level;
-        if(currentLevel != 1) {
+        if(level != 1 && currentLevel != level) {
             JOptionPane.showMessageDialog(null, "Strokes: " + strokes);
         }
+        currentLevel = level;
         strokes = 0;
         ball = new Ball(startBallx, startBally);
         setNumTargets();
@@ -362,5 +362,9 @@ public class Model {
 
     public int getStrokes() {
         return strokes;
+    }
+
+    public int getLevel() {
+        return currentLevel;
     }
 }

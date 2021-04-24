@@ -44,6 +44,9 @@ public class View extends JFrame implements ActionListener {
         JMenuItem loadItem = new JMenuItem("Load");
         loadItem.addActionListener(c);
         gameMenu.add(loadItem);
+        JMenuItem resetItem = new JMenuItem("Reset");
+        resetItem.addActionListener(c);
+        gameMenu.add(resetItem);
 
         //Help menu
         JMenu helpMenu = new JMenu("Help");

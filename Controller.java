@@ -56,6 +56,9 @@ public class Controller implements MouseListener, KeyListener, ActionListener {
             case 'l':
                 actionPerformed(new ActionEvent(this, ActionEvent.ACTION_PERFORMED, "Load"));
                 break;
+            case 'r':
+                actionPerformed(new ActionEvent(this, ActionEvent.ACTION_PERFORMED, "Reset"));
+                break;
             default:
         }
     }
@@ -86,6 +89,9 @@ public class Controller implements MouseListener, KeyListener, ActionListener {
                     model.loadGame(fc.getSelectedFile());
                 }
                 model.paused = prevPaused;
+                break;
+            case "Reset":
+                model.loadLevel(model.getLevel());
                 break;
             case "Instructions":
                 model.paused = true;

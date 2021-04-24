@@ -15,8 +15,8 @@ public class Ball extends MovingSprite {
         int maxX = 18;
         int maxY = 18;
 
-        int distX = getX() + (getWidth() / 2) - mouseX;
-        int distY = getY() + (getHeight() / 2) - mouseY;
+        int distX = (getX() + (getWidth() / 2) - mouseX) / 4;
+        int distY = (getY() + (getHeight() / 2) - mouseY) / 4;
 
         if(Math.abs(distX) > maxX) {
             distX = maxX * (int) Math.signum(distX);
@@ -72,10 +72,5 @@ public class Ball extends MovingSprite {
         else {
             movePower -= 1;
         }
-    }
-
-    //Image is bigger than hitbox to look less janky
-    @Override public void drawSprite(Graphics g) {
-        g.drawImage(getImage(), getX() - boundIncrease, getY() - boundIncrease, getWidth() + boundIncrease, getHeight() + boundIncrease, null);
     }
 }
