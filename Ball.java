@@ -12,8 +12,8 @@ public class Ball extends MovingSprite {
     }
 
     public void startMove(int mouseX, int mouseY) {
-        int maxX = 25;
-        int maxY = 25;
+        int maxX = 18;
+        int maxY = 18;
 
         int distX = getX() + (getWidth() / 2) - mouseX;
         int distY = getY() + (getHeight() / 2) - mouseY;
@@ -58,12 +58,19 @@ public class Ball extends MovingSprite {
     }
 
     @Override public void updateState() {
+        //TODO:
+        if(locationX + width > Model.mapWidth || getCenterX() < 0) {
+            moveXRatio *= -1;
+        }
+        if(locationY + height > Model.mapHeight || getCenterY() < 0) {
+            moveYRatio *= -1;
+        }
         super.updateState();
         if(movePower <= 0) {
             moving = false;
         }
         else {
-            movePower -= 2;
+            movePower -= 1;
         }
     }
 

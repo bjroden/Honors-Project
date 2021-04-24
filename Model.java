@@ -6,6 +6,9 @@ import java.io.*;
 import java.awt.Point;
 
 public class Model {
+    final public static int mapWidth = 800;
+    final public static int mapHeight = 800;
+
     private ArrayList<Sprite> sprites;
     private Ball ball;
     private boolean ballClicked;
@@ -22,7 +25,7 @@ public class Model {
         ballClicked = false;
         numTargets = 0;
 
-        loadLevel(1);
+        loadLevel(3);
     }
 
     public void saveGame(File file) {
@@ -255,24 +258,36 @@ public class Model {
                 break;
             case 2:
                 startBallx = 300;
-                startBally = 600;
+                startBally = 550;
                 synchronized(sprites) {
                     sprites.clear();
                     sprites.add(new Wall(200, 0, 800, 50));
                     sprites.add(new Wall(400, 0, 800, 50));
-                    sprites.add(new RedZone(100, 300, 50, 50, MovingObstacle.XorY.moveX, 15, 100, 500));
-                    sprites.add(new Goal(300, 200, 50, 50));
+                    sprites.add(new RedZone(100, 200, 50, 50, MovingObstacle.XorY.moveX, 10, 100, 500));
+                    sprites.add(new RedZone(500, 400, 50, 50, MovingObstacle.XorY.moveX, 10, 100, 500));
+                    sprites.add(new Goal(300, 100, 50, 50));
                 }
                 break;
             case 3:
-                startBallx = 300;
-                startBally = 600;
+                startBallx = 325;
+                startBally = 500;
                 synchronized(sprites) {
                     sprites.clear();
-                    sprites.add(new Wall(100, 0, 800, 50));
-                    sprites.add(new Wall(500, 0, 800, 50));
-                    sprites.add(new RedZone(100, 300, 50, 50, MovingObstacle.XorY.moveX, 15, 100, 500));
-                    sprites.add(new Goal(300, 200, 50, 50));
+                    sprites.add(new Wall(200, 380, 50, 300));
+                    sprites.add(new Wall(0, 180, 620, 50));
+                    sprites.add(new Wall(25, 550, 250, 625));
+                    sprites.add(new Wall(200, 200, 200, 75));
+                    sprites.add(new Wall(650, 180, 600, 150));
+                    sprites.add(new Wall(200, 180, 50, 300));
+                    sprites.add(new Wall(0, 0, 180, 800));
+                    sprites.add(new RedZone(450, 550, 25, 25, MovingObstacle.XorY.moveY, 5, 400, 550));
+                    sprites.add(new RedZone(450, 200, 25, 25, MovingObstacle.XorY.moveY, 7, 200, 400));
+                    sprites.add(new Target(450, 400, 25, 25, MovingObstacle.XorY.moveX, 15, 450, 700));
+                    sprites.add(new Target(125, 500, 30, 30));
+                    sprites.add(new Target(150, 300, 30, 30));
+                    sprites.add(new Target(225, 450, 30, 30));
+                    sprites.add(new Target(75, 225, 30, 30));
+                    sprites.add(new Goal(285, 240, 140, 20));
                 }
                 break;
             case 999:

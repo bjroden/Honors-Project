@@ -14,7 +14,9 @@ public class View extends JFrame implements ActionListener {
         addKeyListener(c);
 
         setDefaultCloseOperation(EXIT_ON_CLOSE);
-        setSize(800, 800);
+        //TODO:
+        setSize(Model.mapWidth, Model.mapHeight + 20);
+        setResizable(false);
 
         initMenu(c);
 

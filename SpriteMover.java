@@ -11,7 +11,7 @@ public class SpriteMover implements Runnable{
                 moveTest();
             }
             try {
-                Thread.sleep(50);
+                Thread.sleep(1000/30);
             } catch(InterruptedException e) {}
         }
     }
