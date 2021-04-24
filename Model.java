@@ -45,9 +45,9 @@ public class Model {
                         MovingObstacle o = ((MovingObstacle) x);
                         writer.write(String.format(" %b %f %f %d %d %d %d %d", o.getMoving(), o.getMoveXRatio(), o.getMoveYRatio(), o.getMovePower(), o.getX1(), o.getX2(), o.getY1(), o.getY2()));
                     }
-                    else if (x instanceof LaunchPad) {
+                    if (x instanceof LaunchPad) {
                         LaunchPad l = (LaunchPad) x;
-                        writer.write(String.format(" %s %d", l.getDirection().name(), l.getMovePower()));
+                        writer.write(String.format(" %s %d", l.getDirection().name(), l.getLaunchPower()));
                     }
                     writer.write("\n");
                 }
@@ -105,7 +105,7 @@ public class Model {
             while ((line = reader.readLine()) != null) {
                 //TODO: initialize different?
                 boolean mov = false;;
-                int x = 0, y, h = 0, w = 0, pow = 0, x1 = 0, x2 = 0, y1 = 0, y2 = 0;
+                int x = 0, y, h = 0, w = 0, pow = 0, x1 = 0, x2 = 0, y1 = 0, y2 = 0, lPow = 0;
                 double xR = 0, yR = 0;
                 LaunchPad.direction dir = LaunchPad.direction.UP;
 
@@ -124,9 +124,9 @@ public class Model {
                     y1 = Integer.parseInt(nums[11]);
                     y2 = Integer.parseInt(nums[12]);
                 }
-                else if(nums[0].equals("LaunchPad")) {
-                    dir = LaunchPad.direction.valueOf(nums[5]);
-                    pow = Integer.parseInt(nums[6]);
+                if(nums[0].equals("LaunchPad")) {
+                    dir = LaunchPad.direction.valueOf(nums[13]);
+                    lPow = Integer.parseInt(nums[14]);
                 }
                 switch(nums[0]) {
                     case "Test":
@@ -144,7 +144,7 @@ public class Model {
                         newSprites.add(new Target(x, y, h, w, mov, xR, yR, pow, x1, x2, y1, y2));
                         break;
                     case "LaunchPad":
-                        newSprites.add(new LaunchPad(x, y, h, w, dir, pow));
+                        newSprites.add(new LaunchPad(x, y, h, w, mov, xR, yR, pow, x1, x2, y1, y2, dir, lPow));
                         break;
                     case "Goal":
                         newSprites.add(new Goal(x, y, h, w));
@@ -306,6 +306,8 @@ public class Model {
                     sprites.add(new Target(225, 450, 30, 30));
                     sprites.add(new Target(75, 225, 30, 30));
                     sprites.add(new Goal(285, 240, 140, 20));
+                    sprites.add(new LaunchPad(50, 155, 50, 150, LaunchPad.direction.DOWN, 25));
+                    sprites.add(new LaunchPad(625, 225, 150, 50, LaunchPad.direction.LEFT, 35));
                 }
                 break;
             case 4:
@@ -325,8 +327,17 @@ public class Model {
                     sprites.add(new Target(300, 90, 30, 30));
                     sprites.add(new Wall(325, 200, 60, 200));
                     sprites.add(new Target(350, 160, 30, 30));
-                    sprites.add(new LaunchPad(450, 110, 50, 50, LaunchPad.direction.RIGHT, 25));
+                    sprites.add(new LaunchPad(430, 110, 50, 50, LaunchPad.direction.RIGHT, 25));
                     sprites.add(new RedZone(650, 0, 50, 40, MovingObstacle.XorY.moveY, 7, 0, 300));
+                    sprites.add(new Goal(750, 0, 200, 50));
+                }
+                break;
+            case 5:
+                startBallx = 350;
+                startBally = 10;
+                synchronized(sprites) {
+                    sprites.clear();
+                    sprites.add(new LaunchPad(430, 110, 50, 50, MovingObstacle.XorY.moveX, 10, 400, 500, LaunchPad.direction.RIGHT, 25));
                     sprites.add(new Goal(750, 0, 200, 50));
                 }
                 break;

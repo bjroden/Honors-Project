@@ -59,7 +59,7 @@ public class Ball extends MovingSprite {
             default:
                 System.out.println("Startmove switch made impossible command");
         }
-        movePower = x.getMovePower();
+        movePower = x.getLaunchPower();
     }
 
     public void bounce(Sprite s) {
@@ -84,13 +84,13 @@ public class Ball extends MovingSprite {
 
     @Override public void updateState() {
         //TODO:
+        super.updateState();
         if(locationX + width > Model.mapWidth || getCenterX() < 0) {
             moveXRatio *= -1;
         }
         if(locationY + height > Model.mapHeight || getCenterY() < 0) {
             moveYRatio *= -1;
         }
-        super.updateState();
         if(movePower <= 0) {
             moving = false;
         }
