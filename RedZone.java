@@ -10,4 +10,7 @@ public class RedZone extends MovingObstacle {
     RedZone(int x, int y, int height, int width, double xRatio, double yRatio, int movePower, int x1, int x2, int y1, int y2) {
         super("redSquare.png", x, y, height, width, xRatio, yRatio, movePower, x1, x2, y1, y2);
     }
+    RedZone(int x, int y, int height, int width, boolean moving, double xRatio, double yRatio, int movePower, int x1, int x2, int y1, int y2) {
+        super("redSquare.png", x, y, height, width, moving, xRatio, yRatio, movePower, x1, x2, y1, y2);
+    }
 }

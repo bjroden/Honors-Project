@@ -27,14 +27,22 @@ public class Model {
 
     public void saveGame(File file) {
         try(BufferedWriter writer = new BufferedWriter(new FileWriter(file))) {
-            writer.write("Ball " + ball.getX() + " " + ball.getY() + " " + ball.getHeight() + " " + ball.getWidth() + " " + ball.getMoving() + " " + ball.getMoveXRatio() + " " + ball.getMoveYRatio() + " "  + ball.getMovePower() + "\n");
+            //Write model
+            writer.write(String.format("Model %b %d %d %d %d %d\n", paused, startBallx, startBally, currentLevel, numTargets, strokes));
+            //Write ball
+            writer.write(String.format("Ball %d %d %d %d %b %f %f %d\n", ball.getX(), ball.getY(), ball.getHeight(), ball.getWidth(), ball.getMoving(), ball.getMoveXRatio(), ball.getMoveYRatio(), ball.getMovePower()));
             
+            //Write sprites
             synchronized(sprites) {
                 Iterator<Sprite> iter = sprites.iterator();
                 while(iter.hasNext()) {
                     Sprite x = iter.next();
-                    //TODO: add other types
-                    writer.write("Test " + x.getX() + " " + x.getY() + " " + x.getHeight() + " " + x.getWidth() + "\n");
+                    writer.write(String.format("%s %d %d %d %d", x.getClass().getName(), x.getX(), x.getY(), x.getHeight(), x.getWidth()));
+                    if (x instanceof MovingObstacle) {
+                        MovingObstacle o = ((MovingObstacle) x);
+                        writer.write(String.format(" %b %f %f %d %d %d %d %d", o.getMoving(), o.getMoveXRatio(), o.getMoveYRatio(), o.getMovePower(), o.getX1(), o.getX2(), o.getY1(), o.getY2()));
+                    }
+                    writer.write("\n");
                 }
             }
         }
@@ -49,14 +57,31 @@ public class Model {
             String line;
             String[] nums;
             Ball newBall;
+            boolean newPaused;
+            int newStartX, newStarty, newCurrentLevel, newNumTargets, newStrokes;
+
+            //Read Model
+            line = reader.readLine();
+            nums = line.split("\\s+");
+            if(nums.length == 0 || !nums[0].equals("Model")) {
+                throw new IOException("Error reading file: Model data not found");
+            }
+            else {
+                newPaused = Boolean.parseBoolean(nums[1]);
+                newStartX = Integer.parseInt(nums[2]);
+                newStarty = Integer.parseInt(nums[3]);
+                newCurrentLevel = Integer.parseInt(nums[4]);
+                newNumTargets = Integer.parseInt(nums[5]);
+                newStrokes = Integer.parseInt(nums[6]);
+            }
             
+            //Read ball
             line = reader.readLine();
             nums = line.split("\\s+");
             if (nums.length == 0 || !nums[0].equals("Ball")) {
                 throw new IOException("Error reading file: Ball not found");
             }
             else {
-                //TODO: catch exception
                 int ballX = Integer.parseInt(nums[1]);
                 int ballY = Integer.parseInt(nums[2]);
                 int ballHeight = Integer.parseInt(nums[3]);
@@ -69,9 +94,28 @@ public class Model {
                 newBall = new Ball(ballX, ballY, ballHeight, ballWidth, ballMoving, moveX, moveY, movePower);
             }
 
-            //TODO: add other types
+            //Read sprites
             while ((line = reader.readLine()) != null) {
+                //TODO: initialize different?
+                boolean mov = false;;
+                int x = 0, y, h = 0, w = 0, pow = 0, x1 = 0, x2 = 0, y1 = 0, y2 = 0;
+                double xR = 0, yR = 0;
+
                 nums = line.split("\\s+");
+                x = Integer.parseInt(nums[1]);
+                y = Integer.parseInt(nums[2]);
+                h = Integer.parseInt(nums[3]);
+                w = Integer.parseInt(nums[4]);
+                if(nums[0].equals("RedZone") || nums[0].equals("Target")) {
+                    mov = Boolean.parseBoolean(nums[5]);
+                    xR = Double.parseDouble(nums[6]);
+                    yR = Double.parseDouble(nums[7]);
+                    pow = Integer.parseInt(nums[8]);
+                    x1 = Integer.parseInt(nums[9]);
+                    x2 = Integer.parseInt(nums[10]);
+                    y1 = Integer.parseInt(nums[11]);
+                    y2 = Integer.parseInt(nums[12]);
+                }
                 switch(nums[0]) {
                     case "Test":
                         test spriteToAdd = new test();
@@ -81,15 +125,45 @@ public class Model {
                         spriteToAdd.setWidth(Integer.parseInt(nums[4]));
                         newSprites.add(spriteToAdd);
                         break;
+                    case "RedZone":
+                        newSprites.add(new RedZone(x, y, h, w, mov, xR, yR, pow, x1, x2, y1, y2));
+                        break;
+                    case "Target":
+                        newSprites.add(new Target(x, y, h, w, mov, xR, yR, pow, x1, x2, y1, y2));
+                        break;
+                    case "Goal":
+                        newSprites.add(new Goal(x, y, h, w));
+                        break;
+                    case "Wall":
+                        newSprites.add(new Wall(x, y, h, w));
+                        break;
                     default:
                         throw new IOException("Error reading file contents");
                 }
             }
-            //TODO: check more first
+            //Initialize model
+            paused = newPaused;
+            startBallx = newStartX;
+            startBally = newStarty;
+            currentLevel = newCurrentLevel;
+            numTargets = newNumTargets;
+            strokes = newStrokes;
+
+            //Set new objects
             ball = newBall;
             sprites = newSprites;
+
+            if(numTargets <= 0) {
+                readyGoals();
+            }
         }
         catch(IOException e) {
+            JOptionPane.showMessageDialog(null, e.getMessage());
+        }
+        catch(NumberFormatException e) {
+            JOptionPane.showMessageDialog(null, e.getMessage());
+        }
+        catch(ArrayIndexOutOfBoundsException e) {
             JOptionPane.showMessageDialog(null, e.getMessage());
         }
 
@@ -190,6 +264,17 @@ public class Model {
                     sprites.add(new Goal(300, 200, 50, 50));
                 }
                 break;
+            case 3:
+                startBallx = 300;
+                startBally = 600;
+                synchronized(sprites) {
+                    sprites.clear();
+                    sprites.add(new Wall(100, 0, 800, 50));
+                    sprites.add(new Wall(500, 0, 800, 50));
+                    sprites.add(new RedZone(100, 300, 50, 50, MovingObstacle.XorY.moveX, 15, 100, 500));
+                    sprites.add(new Goal(300, 200, 50, 50));
+                }
+                break;
             case 999:
                 JOptionPane.showMessageDialog(null, "Level 1");
                 startBallx = 200;
@@ -219,6 +304,10 @@ public class Model {
                 return;
         }
         currentLevel = level;
+        if(currentLevel != 1) {
+            JOptionPane.showMessageDialog(null, "Strokes: " + strokes);
+        }
+        strokes = 0;
         ball = new Ball(startBallx, startBally);
         setNumTargets();
         paused = false;

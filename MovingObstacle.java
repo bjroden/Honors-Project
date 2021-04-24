@@ -35,6 +35,14 @@ public class MovingObstacle extends MovingSprite {
         this.y2 = y2;
     }
 
+    MovingObstacle(String imagePath, int x, int y, int height, int width, boolean moving, double xRatio, double yRatio, int movePower, int x1, int x2, int y1, int y2) {
+        super(imagePath, x, y, height, width, moving, xRatio, yRatio, movePower);
+        this.x1 = x1;
+        this.x2 = x2;
+        this.y1 = y1;
+        this.y2 = y2;
+    }
+
     @Override public void updateState() {
         super.updateState();
         if (locationX < x1 || locationX > x2) {
@@ -44,4 +52,8 @@ public class MovingObstacle extends MovingSprite {
             moveYRatio *= -1;
         }
     }
+    public int getX1() { return x1; }
+    public int getX2() { return x2; }
+    public int getY1() { return y1; }
+    public int getY2() { return y2; }
 }
