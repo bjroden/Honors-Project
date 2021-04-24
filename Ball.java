@@ -37,6 +37,31 @@ public class Ball extends MovingSprite {
         }
     }
 
+    public void startMove(LaunchPad x) {
+        LaunchPad.direction dir = x.getDirection();
+        switch(dir) {
+            case UP:
+                moveXRatio = 0;
+                moveYRatio = -1;
+                break;
+            case DOWN:
+                moveXRatio = 0;
+                moveYRatio = 1;
+                break;
+            case LEFT:
+                moveXRatio = -1;
+                moveYRatio = 0;
+                break;
+            case RIGHT:
+                moveXRatio = 1;
+                moveYRatio = 0;
+                break;
+            default:
+                System.out.println("Startmove switch made impossible command");
+        }
+        movePower = x.getMovePower();
+    }
+
     public void bounce(Sprite s) {
         //TODO: clean this up, corners can bug out
         boolean bounced = false;
