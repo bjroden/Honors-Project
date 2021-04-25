@@ -4,11 +4,11 @@ public class Ball extends MovingSprite {
     final private static int boundIncrease = 10;
 
     Ball(int x, int y) {
-        super("ball.jpg", x, y, 40, 40);
+        super("images/ball.jpg", x, y, 40, 40);
     }
 
     Ball(int x, int y, int height, int width, boolean moving, double xRatio, double yRatio, double power) {
-        super("ball.jpg", x, y, height, width, moving, xRatio, yRatio, power);
+        super("images/ball.jpg", x, y, height, width, moving, xRatio, yRatio, power);
     }
 
     public void startMove(int mouseX, int mouseY) {

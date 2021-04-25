@@ -1,6 +1,6 @@
 public class test extends Sprite{
    test() {
-       super("nostalgiaCriticDevil.jpg");
+       super("images/nostalgiaCriticDevil.jpg");
    } 
 
    @Override public void updateState() {

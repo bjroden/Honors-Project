@@ -28,7 +28,7 @@ public class Model {
 
         soundplayer = new SoundPlayer();
 
-        loadLevel(4);
+        loadLevel(1);
     }
 
     public void saveGame(File file) {
