@@ -1,5 +1,3 @@
-import java.awt.Graphics;
-
 public class Ball extends MovingSprite {
     Ball(int x, int y) {
         super("images/ball.png", x, y, 40, 40);

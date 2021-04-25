@@ -1,7 +1,10 @@
-import javax.sound.sampled.*;
 import javax.swing.JOptionPane;
-
 import java.io.File;
+import javax.sound.sampled.LineListener;
+import javax.sound.sampled.LineEvent;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
 
 public class SoundPlayer implements LineListener {
     public enum sound {BOUNCE, TARGET, RESET, GOAL, LAUNCH};

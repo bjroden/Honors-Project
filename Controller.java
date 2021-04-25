@@ -1,8 +1,11 @@
-import java.awt.event.*;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
-import java.awt.Component.*;
-import java.awt.MouseInfo;
+import java.awt.event.MouseEvent;
+import java.awt.event.KeyEvent;
+import java.awt.event.ActionEvent;
+import java.awt.event.MouseListener;
+import java.awt.event.KeyListener;
+import java.awt.event.ActionListener;
 
 public class Controller implements MouseListener, KeyListener, ActionListener {
     Model model;

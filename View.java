@@ -1,9 +1,13 @@
 import java.awt.Graphics;
-import java.util.*;
-import javax.swing.*;
-import java.awt.event.*;
+import java.util.Iterator;
 import java.awt.Color;
 import java.awt.MouseInfo;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.JMenu;
+import javax.swing.JMenuItem;
+import javax.swing.JMenuBar;
+import javax.swing.JOptionPane;
 
 public class View extends JFrame {
     Model model;
