@@ -8,6 +8,7 @@ import java.awt.Point;
 public class Model {
     final public static int mapWidth = 800;
     final public static int mapHeight = 800;
+    final public static int[] parTimes = {1, 3, 9, 4, 5, 10};
 
     SoundPlayer soundplayer;
     private ArrayList<Sprite> sprites;
@@ -222,7 +223,7 @@ public class Model {
                             return;
                         }
                     }
-                    else if(s instanceof Wall) {
+                    else if(s instanceof Wall && ball.getMoving()) {
                         ball.bounce(s);
                         soundplayer.playSound(SoundPlayer.sound.BOUNCE);
                     }
@@ -364,6 +365,38 @@ public class Model {
                     sprites.add(new Goal(750, 0, 200, 50));
                 }
                 break;
+            case 6:
+                startBallx = 400;
+                startBally = 600;
+                synchronized(sprites) {
+                    sprites.clear();
+                    sprites.add(new Target(400, 480, 30, 30));
+                    sprites.add(new Target(450, 560, 30, 30));
+                    sprites.add(new Target(200, 200, 50, 50));
+                    sprites.add(new Target(600, 540, 70, 70));
+                    sprites.add(new Target(300, 50, 40, 40));
+                    sprites.add(new Target(500, 50, 40, 40));
+                    sprites.add(new Wall(100, 130, 700, 40));
+                    sprites.add(new Wall(700, 0, 800, 40));
+                    sprites.add(new Wall(300, 400, 50, 250));
+                    sprites.add(new Wall(510, 450, 300, 40));
+                    sprites.add(new RedZone(310, 380, 20, 230));
+                    sprites.add(new RedZone(140, 730, 50, 560));
+                    sprites.add(new LaunchPad(600, 140, 40, 40, MovingObstacle.XorY.moveX, 15, 150, 600, LaunchPad.direction.DOWN, 60));
+                    sprites.add(new LaunchPad(150, 240, 40, 40, MovingObstacle.XorY.moveX, 15, 150, 600, LaunchPad.direction.DOWN, 60));
+                    sprites.add(new LaunchPad(600, 650, 50, 70, MovingObstacle.XorY.moveX, 3, 520, 700, LaunchPad.direction.UP, 20));
+                    sprites.add(new LaunchPad(650, 0, 80, 50, LaunchPad.direction.LEFT, 50));
+                    sprites.add(new Goal(0, 0, 800, 100));
+                }
+                break;
+            case 7:
+                //Final level
+                startBallx = 400;
+                startBally = 400;
+                synchronized(sprites) {
+                    sprites.clear();
+                }
+                break;
             case 999:
                 JOptionPane.showMessageDialog(null, "Level 1");
                 startBallx = 200;
@@ -393,7 +426,7 @@ public class Model {
                 return;
         }
         if(level != 1 && currentLevel != level) {
-            JOptionPane.showMessageDialog(null, "Strokes: " + strokes);
+            JOptionPane.showMessageDialog(null, String.format("Strokes: %d\nPar: %d\n", strokes, parTimes[level - 2]));
         }
         currentLevel = level;
         strokes = 0;

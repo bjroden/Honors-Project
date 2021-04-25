@@ -20,7 +20,9 @@ public class SoundPlayer implements LineListener {
         resetClip = loadSound("sounds/file.wav");
         launchClip = loadSound("sounds/jump1.wav");
 
-        launchClip.addLineListener(this);
+        if (launchClip != null) {
+            launchClip.addLineListener(this);
+        }
         launchPlaying = false;
     }
 
