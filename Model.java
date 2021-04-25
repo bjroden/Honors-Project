@@ -339,8 +339,19 @@ public class Model {
                     sprites.clear();
                     sprites.add(new LaunchPad(0, 50, 100, 30, MovingObstacle.XorY.moveX, 5, 0, 200, LaunchPad.direction.DOWN, 30));
                     sprites.add(new RedZone(0, 400, 50, 125));
+                    sprites.add(new RedZone(450, 0, 400, 50));
                     sprites.add(new RedZone(200, 400, 50, 300));
-                    sprites.add(new LaunchPad(400, 550, 50, 50, MovingObstacle.XorY.moveY, 5, 500, 700, LaunchPad.direction.RIGHT, 30));
+                    sprites.add(new LaunchPad(300, 550, 50, 50, MovingObstacle.XorY.moveY, 10, 500, 700, LaunchPad.direction.RIGHT, 25));
+                    sprites.add(new Target(375, 530, 40, 40));
+                    sprites.add(new Target(475, 530, 40, 40));
+                    sprites.add(new Target(575, 530, 40, 40));
+                    sprites.add(new Wall(510, 300, 200, 40));
+                    sprites.add(new Wall(625, 400, 40, 200));
+                    sprites.add(new RedZone(550, 50, 25, 25, MovingObstacle.XorY.moveY, 15, 50, 450));
+                    sprites.add(new LaunchPad(630, 300, 80, 40, LaunchPad.direction.UP, 15));
+                    sprites.add(new LaunchPad(500, 50, 200, 20, LaunchPad.direction.RIGHT, 30));
+                    sprites.add(new Target(530, 100, 40, 30));
+                    sprites.add(new Wall(675, 200, 40, 200));
                     sprites.add(new Goal(750, 0, 200, 50));
                 }
                 break;
