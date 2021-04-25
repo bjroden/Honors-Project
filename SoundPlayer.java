@@ -16,7 +16,7 @@ public class SoundPlayer implements LineListener {
     public SoundPlayer() {
         bounceClip = loadSound("sounds/bump1.wav");
         targetClip = loadSound("sounds/chord.wav");
-        goalClip = loadSound("sounds/chord.wav");
+        goalClip = loadSound("sounds/tada.wav");
         resetClip = loadSound("sounds/file.wav");
         launchClip = loadSound("sounds/jump1.wav");
 

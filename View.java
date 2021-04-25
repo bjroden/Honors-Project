@@ -5,7 +5,7 @@ import java.awt.event.*;
 import java.awt.Color;
 import java.awt.MouseInfo;
 
-public class View extends JFrame implements ActionListener {
+public class View extends JFrame {
     Model model;
 
     //Initialize main window
@@ -17,6 +17,7 @@ public class View extends JFrame implements ActionListener {
         //TODO:
         setSize(Model.mapWidth, Model.mapHeight + 20);
         setResizable(false);
+        setTitle("World's Hardest Golf");
 
         initMenu(c);
 
@@ -60,17 +61,10 @@ public class View extends JFrame implements ActionListener {
     }
 
     public void displayInstructions() {
-        //TODO: more descriptive
-        String instructions = "How to play:\n\nClick and drag the ball to launch it. Try to complete the level in as few strokes as possible.\n\nAll targets must be hit before reaching the goal, which will turn from yellow to green when you can exit the level.\n\nRed squares reset the ball to the start, and black squares are walls.";
+        String instructions = "How to play:\n\nClick and drag the ball to launch it. Try to complete the level in as few strokes as possible.\n\nAll targets must be hit before reaching the goal, which will turn from yellow to green when you can exit the level.\n\nRed squares reset the ball to the start, black squares are walls, and arrows are boost pads.";
         JOptionPane.showMessageDialog(this, instructions, "Instructions", JOptionPane.INFORMATION_MESSAGE);
     }
     
-    //TODO: This can probably be cut
-    public void actionPerformed(ActionEvent e) {
-        System.out.println("Action detected!");
-        repaint();
-    }
-
     //Main panel
     private class MyPanel extends JPanel {
         Controller controller;
@@ -83,15 +77,13 @@ public class View extends JFrame implements ActionListener {
 
         @Override public void paintComponent(Graphics g) {
             super.paintComponent(g);
-            //TODO: remove later, with blue background too
-            g.drawLine(0, 0, getWidth(), getHeight());
 
-            //Draw ball, and line if being held
-            //Draw other sprites
+            //Draw sprites
             Iterator<Sprite> iter = model.getSprites().iterator();
             while(iter.hasNext()) {
                 iter.next().drawSprite(g);
             }
+            //Draw ball, and line if being held
             Ball ball = model.getBall();
             ball.drawSprite(g);
             if (model.getBallClicked()) {
