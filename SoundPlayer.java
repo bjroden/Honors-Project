@@ -53,12 +53,14 @@ public class SoundPlayer implements LineListener {
         if(playClip != null) {
             if(s == sound.LAUNCH) {
                 if(!launchPlaying) {
+                    playClip.stop();
                     playClip.setMicrosecondPosition(0);
                     playClip.start();
                     launchPlaying = true;
                 }
             }
             else {
+                playClip.stop();
                 playClip.setMicrosecondPosition(0);
                 playClip.start();
             }
