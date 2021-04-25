@@ -7,13 +7,13 @@ public class Ball extends MovingSprite {
         super("ball.jpg", x, y, 40, 40);
     }
 
-    Ball(int x, int y, int height, int width, boolean moving, double xRatio, double yRatio, int power) {
+    Ball(int x, int y, int height, int width, boolean moving, double xRatio, double yRatio, double power) {
         super("ball.jpg", x, y, height, width, moving, xRatio, yRatio, power);
     }
 
     public void startMove(int mouseX, int mouseY) {
-        int maxX = 18;
-        int maxY = 18;
+        int maxX = 19;
+        int maxY = 19;
 
         int distX = (getX() + (getWidth() / 2) - mouseX) / 4;
         int distY = (getY() + (getHeight() / 2) - mouseY) / 4;
@@ -59,6 +59,7 @@ public class Ball extends MovingSprite {
             default:
                 System.out.println("Startmove switch made impossible command");
         }
+        moving = true;
         movePower = x.getLaunchPower();
     }
 
@@ -95,7 +96,7 @@ public class Ball extends MovingSprite {
             moving = false;
         }
         else {
-            movePower -= 1;
+            movePower -= 1.0 * SpriteMover.speedupFactor;
         }
     }
 }

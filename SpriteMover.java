@@ -1,5 +1,7 @@
 public class SpriteMover implements Runnable{
     Controller controller;
+    final static public int frameRate = 144;
+    final static public double speedupFactor = 30.0 / frameRate;
 
     SpriteMover(Controller c) {
         controller = c;
@@ -11,7 +13,7 @@ public class SpriteMover implements Runnable{
                 moveTest();
             }
             try {
-                Thread.sleep(1000/30);
+                Thread.sleep(1000/frameRate);
             } catch(InterruptedException e) {}
         }
     }

@@ -33,7 +33,7 @@ public class Model {
             //Write model
             writer.write(String.format("Model %b %d %d %d %d %d\n", paused, startBallx, startBally, currentLevel, numTargets, strokes));
             //Write ball
-            writer.write(String.format("Ball %d %d %d %d %b %f %f %d\n", ball.getX(), ball.getY(), ball.getHeight(), ball.getWidth(), ball.getMoving(), ball.getMoveXRatio(), ball.getMoveYRatio(), ball.getMovePower()));
+            writer.write(String.format("Ball %d %d %d %d %b %f %f %f\n", ball.getX(), ball.getY(), ball.getHeight(), ball.getWidth(), ball.getMoving(), ball.getMoveXRatio(), ball.getMoveYRatio(), ball.getMovePower()));
             
             //Write sprites
             synchronized(sprites) {
@@ -43,7 +43,7 @@ public class Model {
                     writer.write(String.format("%s %d %d %d %d", x.getClass().getName(), x.getX(), x.getY(), x.getHeight(), x.getWidth()));
                     if (x instanceof MovingObstacle) {
                         MovingObstacle o = ((MovingObstacle) x);
-                        writer.write(String.format(" %b %f %f %d %d %d %d %d", o.getMoving(), o.getMoveXRatio(), o.getMoveYRatio(), o.getMovePower(), o.getX1(), o.getX2(), o.getY1(), o.getY2()));
+                        writer.write(String.format(" %b %f %f %f %d %d %d %d", o.getMoving(), o.getMoveXRatio(), o.getMoveYRatio(), o.getMovePower(), o.getX1(), o.getX2(), o.getY1(), o.getY2()));
                     }
                     if (x instanceof LaunchPad) {
                         LaunchPad l = (LaunchPad) x;
@@ -96,7 +96,7 @@ public class Model {
                 boolean ballMoving = Boolean.parseBoolean(nums[5]) ;
                 double moveX = Double.parseDouble(nums[6]); 
                 double moveY = Double.parseDouble(nums[7]); 
-                int movePower = Integer.parseInt(nums[8]);
+                double movePower = Double.parseDouble(nums[8]);
 
                 newBall = new Ball(ballX, ballY, ballHeight, ballWidth, ballMoving, moveX, moveY, movePower);
             }
@@ -105,8 +105,8 @@ public class Model {
             while ((line = reader.readLine()) != null) {
                 //TODO: initialize different?
                 boolean mov = false;;
-                int x = 0, y, h = 0, w = 0, pow = 0, x1 = 0, x2 = 0, y1 = 0, y2 = 0, lPow = 0;
-                double xR = 0, yR = 0;
+                int x = 0, y, h = 0, w = 0, x1 = 0, x2 = 0, y1 = 0, y2 = 0, lPow = 0;
+                double xR = 0, yR = 0, pow = 0;
                 LaunchPad.direction dir = LaunchPad.direction.UP;
 
                 nums = line.split("\\s+");
@@ -118,7 +118,7 @@ public class Model {
                     mov = Boolean.parseBoolean(nums[5]);
                     xR = Double.parseDouble(nums[6]);
                     yR = Double.parseDouble(nums[7]);
-                    pow = Integer.parseInt(nums[8]);
+                    pow = Double.parseDouble(nums[8]);
                     x1 = Integer.parseInt(nums[9]);
                     x2 = Integer.parseInt(nums[10]);
                     y1 = Integer.parseInt(nums[11]);
@@ -333,11 +333,14 @@ public class Model {
                 }
                 break;
             case 5:
-                startBallx = 350;
-                startBally = 10;
+                startBallx = 250;
+                startBally = 100;
                 synchronized(sprites) {
                     sprites.clear();
-                    sprites.add(new LaunchPad(430, 110, 50, 50, MovingObstacle.XorY.moveX, 10, 400, 500, LaunchPad.direction.RIGHT, 25));
+                    sprites.add(new LaunchPad(0, 50, 100, 30, MovingObstacle.XorY.moveX, 5, 0, 200, LaunchPad.direction.DOWN, 30));
+                    sprites.add(new RedZone(0, 400, 50, 125));
+                    sprites.add(new RedZone(200, 400, 50, 300));
+                    sprites.add(new LaunchPad(400, 550, 50, 50, MovingObstacle.XorY.moveY, 5, 500, 700, LaunchPad.direction.RIGHT, 30));
                     sprites.add(new Goal(750, 0, 200, 50));
                 }
                 break;
