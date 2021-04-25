@@ -166,6 +166,9 @@ public class Model {
                     case "Wall":
                         newSprites.add(new Wall(x, y, h, w));
                         break;
+                    case "EndScreen":
+                        newSprites.add(new EndScreen());
+                        break;
                     default:
                         throw new IOException("Error reading file contents");
                 }
@@ -408,6 +411,7 @@ public class Model {
                 JOptionPane.showMessageDialog(null, String.format("Your scores are: %d, %d, %d, %d, %d, %d\nThe par times are: %d %d %d %d %d %d\n\nThank you for playing!", scoreBoard[0], scoreBoard[1], scoreBoard[2], scoreBoard[3], scoreBoard[4], scoreBoard[5], parTimes[0],  parTimes[1],  parTimes[2],  parTimes[3],  parTimes[4],  parTimes[5]));
                 synchronized(sprites) {
                     sprites.clear();
+                    sprites.add(new EndScreen());
                 }
                 break;
             case 1000:
