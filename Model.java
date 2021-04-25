@@ -9,6 +9,7 @@ public class Model {
     final public static int mapWidth = 800;
     final public static int mapHeight = 800;
 
+    SoundPlayer soundplayer;
     private ArrayList<Sprite> sprites;
     private Ball ball;
     private boolean ballClicked;
@@ -25,7 +26,9 @@ public class Model {
         ballClicked = false;
         numTargets = 0;
 
-        loadLevel(1);
+        soundplayer = new SoundPlayer();
+
+        loadLevel(4);
     }
 
     public void saveGame(File file) {
@@ -114,7 +117,7 @@ public class Model {
                 y = Integer.parseInt(nums[2]);
                 h = Integer.parseInt(nums[3]);
                 w = Integer.parseInt(nums[4]);
-                if(nums[0].equals("RedZone") || nums[0].equals("Target")) {
+                if(nums[0].equals("RedZone") || nums[0].equals("Target") || nums[0].equals("LaunchPad")) {
                     mov = Boolean.parseBoolean(nums[5]);
                     xR = Double.parseDouble(nums[6]);
                     yR = Double.parseDouble(nums[7]);
@@ -204,28 +207,34 @@ public class Model {
                 if(ball.overlaps(s)) {
                     if(s instanceof RedZone) {
                         resetBall();
+                        soundplayer.playSound(SoundPlayer.sound.RESET);
                     }
                     else if(s instanceof Target) {
                         removeTarget(s);
                         //TODO: added to prevent concurrentModification exception, double check 
+                        soundplayer.playSound(SoundPlayer.sound.TARGET);
                         iter=sprites.iterator();
                     }
                     else if(s instanceof Goal) {
                         if(numTargets <= 0) {
+                            soundplayer.playSound(SoundPlayer.sound.GOAL);
                             loadLevel(currentLevel + 1);
                             return;
                         }
                     }
                     else if(s instanceof Wall) {
                         ball.bounce(s);
+                        soundplayer.playSound(SoundPlayer.sound.BOUNCE);
                     }
                     else if(s instanceof LaunchPad) {
                         ball.startMove(((LaunchPad) s));
+                        soundplayer.playSound(SoundPlayer.sound.LAUNCH);
                     }
                 }
             }
         }
     }
+
 
     private void resetBall() {
         ball = new Ball(startBallx, startBally);
