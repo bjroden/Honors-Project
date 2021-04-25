@@ -20,12 +20,14 @@ public class Model {
     private int currentLevel;
     private int numTargets;
     private int strokes;
+    private int[] scoreBoard;
 
     Model() {
         sprites = new ArrayList<Sprite>();
         paused = false;
         ballClicked = false;
         numTargets = 0;
+        scoreBoard = new int[6];
 
         soundplayer = new SoundPlayer();
 
@@ -35,7 +37,11 @@ public class Model {
     public void saveGame(File file) {
         try(BufferedWriter writer = new BufferedWriter(new FileWriter(file))) {
             //Write model
-            writer.write(String.format("Model %b %d %d %d %d %d\n", paused, startBallx, startBally, currentLevel, numTargets, strokes));
+            writer.write(String.format("Model %b %d %d %d %d %d", paused, startBallx, startBally, currentLevel, numTargets, strokes));
+            for(int i = 0; i < scoreBoard.length; i++) {
+                writer.write(String.format(" %d", scoreBoard[i]));
+            }
+            writer.write("\n");
             //Write ball
             writer.write(String.format("Ball %d %d %d %d %b %f %f %f\n", ball.getX(), ball.getY(), ball.getHeight(), ball.getWidth(), ball.getMoving(), ball.getMoveXRatio(), ball.getMoveYRatio(), ball.getMovePower()));
             
@@ -70,6 +76,7 @@ public class Model {
             Ball newBall;
             boolean newPaused;
             int newStartX, newStarty, newCurrentLevel, newNumTargets, newStrokes;
+            int[] newScoreboard = new int[6];
 
             //Read Model
             line = reader.readLine();
@@ -84,6 +91,9 @@ public class Model {
                 newCurrentLevel = Integer.parseInt(nums[4]);
                 newNumTargets = Integer.parseInt(nums[5]);
                 newStrokes = Integer.parseInt(nums[6]);
+                for(int i = 0; i < scoreBoard.length; i++) {
+                    newScoreboard[i] = Integer.parseInt(nums[7 + i]);
+                }
             }
             
             //Read ball
@@ -167,6 +177,7 @@ public class Model {
             currentLevel = newCurrentLevel;
             numTargets = newNumTargets;
             strokes = newStrokes;
+            scoreBoard = newScoreboard;
 
             //Set new objects
             ball = newBall;
@@ -393,22 +404,10 @@ public class Model {
                 //Final level
                 startBallx = 400;
                 startBally = 400;
+                scoreBoard[5] = strokes;
+                JOptionPane.showMessageDialog(null, String.format("Your scores are: %d, %d, %d, %d, %d, %d\nThe par times are: %d %d %d %d %d %d\n\nThank you for playing!", scoreBoard[0], scoreBoard[1], scoreBoard[2], scoreBoard[3], scoreBoard[4], scoreBoard[5], parTimes[0],  parTimes[1],  parTimes[2],  parTimes[3],  parTimes[4],  parTimes[5]));
                 synchronized(sprites) {
                     sprites.clear();
-                }
-                break;
-            case 999:
-                JOptionPane.showMessageDialog(null, "Level 1");
-                startBallx = 200;
-                startBally = 400;
-                synchronized(sprites) {
-                    sprites.clear();
-                    sprites.add(new Target(40, 40, 50, 40));
-                    sprites.add(new Target(400, 300, 50, 50, MovingObstacle.XorY.moveY, 20, 100, 500));
-                    sprites.add(new RedZone(100, 500, 100, 100, MovingObstacle.XorY.moveX, 5, 100, 200));
-                    sprites.add(new Target(100, 100, 100, 100, 1, 0, 10, 40, 300, 0, 0));
-                    sprites.add(new Goal(500, 100, 50, 50));
-                    sprites.add(new Wall(10, 200, 100, 250));
                 }
                 break;
             case 1000:
@@ -425,8 +424,9 @@ public class Model {
                 JOptionPane.showMessageDialog(null, "Could not find level being loaded");
                 return;
         }
-        if(level != 1 && currentLevel != level) {
+        if(level > 1 && level < 7 && currentLevel != level) {
             JOptionPane.showMessageDialog(null, String.format("Strokes: %d\nPar: %d\n", strokes, parTimes[level - 2]));
+            scoreBoard[level - 2] = strokes;
         }
         currentLevel = level;
         strokes = 0;
@@ -473,5 +473,9 @@ public class Model {
 
     public int getLevel() {
         return currentLevel;
+    }
+
+    public void showScores() {
+        JOptionPane.showMessageDialog(null, String.format("Your scores are: %d, %d, %d, %d, %d, %d\nThe par times are: %d %d %d %d %d %d\n", scoreBoard[0], scoreBoard[1], scoreBoard[2], scoreBoard[3], scoreBoard[4], scoreBoard[5], parTimes[0],  parTimes[1],  parTimes[2],  parTimes[3],  parTimes[4],  parTimes[5]));
     }
 }

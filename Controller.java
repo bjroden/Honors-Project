@@ -98,6 +98,11 @@ public class Controller implements MouseListener, KeyListener, ActionListener {
                 view.displayInstructions();
                 model.paused = prevPaused;
                 break;
+            case "Scores":
+                model.paused = true;
+                model.showScores();
+                model.paused = prevPaused;
+                break;
             case "About":
                 model.paused = true;
                 JOptionPane.showMessageDialog(null, "CSCE 3193H Honors Project\n\nAuthor: Brian Roden\nTerm: Spring 2021");
@@ -106,8 +111,6 @@ public class Controller implements MouseListener, KeyListener, ActionListener {
             default:
                 System.out.println("Default button action");
         }
-        //TODO: check if this needs to be done or refactored
-        view.repaint();
     }
 
     public static void main(String args[]) {

@@ -55,6 +55,9 @@ public class View extends JFrame {
         JMenuItem instructionsItem = new JMenuItem("Instructions");
         instructionsItem.addActionListener(c);
         helpMenu.add(instructionsItem);
+        JMenuItem scoresItem = new JMenuItem("Scores");
+        scoresItem.addActionListener(c);
+        helpMenu.add(scoresItem);
         JMenuItem aboutItem = new JMenuItem("About");
         aboutItem.addActionListener(c);
         helpMenu.add(aboutItem);
