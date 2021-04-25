@@ -9,6 +9,7 @@ public class Model {
     final public static int mapWidth = 800;
     final public static int mapHeight = 800;
     final public static int[] parTimes = {1, 3, 9, 4, 5, 10};
+    final public static int[] devTimes = {1, 2, 6, 3, 4, 7};
 
     SoundPlayer soundplayer;
     private ArrayList<Sprite> sprites;
@@ -128,7 +129,7 @@ public class Model {
                 y = Integer.parseInt(nums[2]);
                 h = Integer.parseInt(nums[3]);
                 w = Integer.parseInt(nums[4]);
-                if(nums[0].equals("RedZone") || nums[0].equals("Target") || nums[0].equals("LaunchPad")) {
+                if(nums[0].equals("RedZone") || nums[0].equals("Target") || nums[0].equals("LaunchPad") || nums[0].equals("Secret")) {
                     mov = Boolean.parseBoolean(nums[5]);
                     xR = Double.parseDouble(nums[6]);
                     yR = Double.parseDouble(nums[7]);
@@ -143,14 +144,6 @@ public class Model {
                     lPow = Integer.parseInt(nums[14]);
                 }
                 switch(nums[0]) {
-                    case "Test":
-                        test spriteToAdd = new test();
-                        spriteToAdd.setX(Integer.parseInt(nums[1]));
-                        spriteToAdd.setY(Integer.parseInt(nums[2]));
-                        spriteToAdd.setHeight(Integer.parseInt(nums[3]));
-                        spriteToAdd.setWidth(Integer.parseInt(nums[4]));
-                        newSprites.add(spriteToAdd);
-                        break;
                     case "RedZone":
                         newSprites.add(new RedZone(x, y, h, w, mov, xR, yR, pow, x1, x2, y1, y2));
                         break;
@@ -168,6 +161,9 @@ public class Model {
                         break;
                     case "EndScreen":
                         newSprites.add(new EndScreen());
+                        break;
+                    case "Secret":
+                        newSprites.add(new Secret(x, y, xR, yR));
                         break;
                     default:
                         throw new IOException("Error reading file contents");
@@ -409,19 +405,35 @@ public class Model {
                 startBally = 400;
                 scoreBoard[5] = strokes;
                 JOptionPane.showMessageDialog(null, String.format("Your scores are: %d, %d, %d, %d, %d, %d\nThe par times are: %d %d %d %d %d %d\n\nThank you for playing!", scoreBoard[0], scoreBoard[1], scoreBoard[2], scoreBoard[3], scoreBoard[4], scoreBoard[5], parTimes[0],  parTimes[1],  parTimes[2],  parTimes[3],  parTimes[4],  parTimes[5]));
+
+                //Secret Ending
+                boolean secret = true;
+                for(int i = 0; i < scoreBoard.length; i++) {
+                    if(scoreBoard[i] > devTimes[i]) {
+                        secret = false;
+                    }
+                }
+                if(secret) {
+                    JOptionPane.showMessageDialog(null, "You beat the dev times! Here is your reward!");
+                    loadLevel(1000);
+                    return;
+                }
+
+                //End Screen
                 synchronized(sprites) {
                     sprites.clear();
                     sprites.add(new EndScreen());
                 }
                 break;
             case 1000:
-                JOptionPane.showMessageDialog(null, "Level 2");
                 startBallx = 200;
                 startBally = 200;
                 synchronized(sprites) {
                     sprites.clear();
-                    sprites.add(new Wall(300, 300, 600, 50));
-                    sprites.add(new Goal(100, 100, 50, 100));
+                    sprites.add(new Secret(0, 0, 1, 1));
+                    sprites.add(new Secret(0, 700, -1, 1));
+                    sprites.add(new Secret(700, 0, 1, -1));
+                    sprites.add(new Secret(700, 700, -1, -1));
                 }
                 break;
             default:
