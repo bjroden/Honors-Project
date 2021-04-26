@@ -65,6 +65,9 @@ public class View extends JFrame {
         JMenuItem aboutItem = new JMenuItem("About");
         aboutItem.addActionListener(c);
         helpMenu.add(aboutItem);
+        JMenuItem exitItem = new JMenuItem("Exit");
+        exitItem.addActionListener(c);
+        helpMenu.add(exitItem);
     }
 
     public void displayInstructions() {

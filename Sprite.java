@@ -6,7 +6,6 @@ import java.io.IOException;
 
 class Sprite
 {
-	private String jpgName;
 	protected int locationX;
 	protected int locationY;
     protected int height;

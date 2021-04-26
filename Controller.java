@@ -105,6 +105,9 @@ public class Controller implements MouseListener, KeyListener, ActionListener {
                 JOptionPane.showMessageDialog(null, "CSCE 3193H Honors Project\n\nAuthor: Brian Roden\nTerm: Spring 2021");
                 model.paused = prevPaused;
                 break;
+            case "Exit":
+                System.exit(0);
+                break;
             default:
                 System.out.println("Default button action");
         }
