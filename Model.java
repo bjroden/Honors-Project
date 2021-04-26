@@ -153,7 +153,7 @@ public class Model {
     }
     //Show scores for each level
     public void showScores() {
-        JOptionPane.showMessageDialog(null, String.format("Your scores are: %d, %d, %d, %d, %d, %d\nThe par times are: %d %d %d %d %d %d\n", scoreBoard[0], scoreBoard[1], scoreBoard[2], scoreBoard[3], scoreBoard[4], scoreBoard[5], parTimes[0],  parTimes[1],  parTimes[2],  parTimes[3],  parTimes[4],  parTimes[5]));
+        JOptionPane.showMessageDialog(null, String.format("Your strokes for this level is currently: %d\nYour scores so far are: %d, %d, %d, %d, %d, %d\nThe par times are: %d %d %d %d %d %d\n", strokes, scoreBoard[0], scoreBoard[1], scoreBoard[2], scoreBoard[3], scoreBoard[4], scoreBoard[5], parTimes[0],  parTimes[1],  parTimes[2],  parTimes[3],  parTimes[4],  parTimes[5]));
     }
 
     public void saveGame(File file) {
@@ -371,8 +371,8 @@ public class Model {
                     sprites.add(new Target(225, 450, 30, 30));
                     sprites.add(new Target(75, 225, 30, 30));
                     sprites.add(new Goal(285, 240, 140, 20));
-                    sprites.add(new LaunchPad(50, 155, 50, 150, LaunchPad.direction.DOWN, 25));
-                    sprites.add(new LaunchPad(625, 225, 150, 50, LaunchPad.direction.LEFT, 35));
+                    sprites.add(new LaunchPad(50, 165, 50, 150, LaunchPad.direction.DOWN, 25));
+                    sprites.add(new LaunchPad(600, 275, 60, 50, LaunchPad.direction.LEFT, 35));
                 }
                 break;
             case 4:
@@ -435,7 +435,7 @@ public class Model {
                     sprites.add(new Wall(700, 0, 800, 40));
                     sprites.add(new Wall(300, 400, 50, 250));
                     sprites.add(new Wall(510, 450, 300, 40));
-                    sprites.add(new RedZone(310, 380, 20, 230));
+                    sprites.add(new RedZone(320, 370, 30, 220));
                     sprites.add(new RedZone(140, 730, 50, 560));
                     sprites.add(new LaunchPad(600, 140, 40, 40, MovingObstacle.XorY.moveX, 15, 150, 600, LaunchPad.direction.DOWN, 60));
                     sprites.add(new LaunchPad(150, 240, 40, 40, MovingObstacle.XorY.moveX, 15, 150, 600, LaunchPad.direction.DOWN, 60));

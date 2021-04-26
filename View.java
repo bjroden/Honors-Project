@@ -24,10 +24,10 @@ public class View extends JFrame {
         setTitle("World's Hardest Golf");
 
         initMenu(c);
-
         MyPanel panel = new MyPanel(c);
         add(panel);
 
+        displayInstructions();
         setVisible(true);
     }
 
@@ -68,7 +68,7 @@ public class View extends JFrame {
     }
 
     public void displayInstructions() {
-        String instructions = "How to play:\n\nClick and drag the ball to launch it. Try to complete the level in as few strokes as possible.\n\nAll targets must be hit before reaching the goal, which will turn from yellow to green when you can exit the level.\n\nRed squares reset the ball to the start, black squares are walls, and arrows are boost pads.";
+        String instructions = "How to play:\n\nClick and drag the ball to launch it. Try to complete the level in as few strokes as possible.\n\nAll targets must be hit before reaching the goal, which will turn from yellow to green when you can exit the level.\n\nRed squares reset the ball to the start, black squares are walls, and arrows are boost pads.\n\nKeybinds for game options: P = Pause Game, S = Save Game, L = Load Game, R = Reset Level";
         JOptionPane.showMessageDialog(this, instructions, "Instructions", JOptionPane.INFORMATION_MESSAGE);
     }
     

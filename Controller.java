@@ -47,7 +47,7 @@ public class Controller implements MouseListener, KeyListener, ActionListener {
 
     //Key actions
     public void keyTyped(KeyEvent e) {
-        switch(e.getKeyChar()) {
+        switch(Character.toLowerCase(e.getKeyChar())) {
             case 'p':
                 actionPerformed(new ActionEvent(this, ActionEvent.ACTION_PERFORMED, "Pause"));
                 break;
@@ -72,10 +72,8 @@ public class Controller implements MouseListener, KeyListener, ActionListener {
         switch(e.getActionCommand()) {
             case "Pause":
                 model.paused = !model.paused;
-                System.out.println("Pausing game");
                 break;
             case "Save":
-                System.out.println("Saving game");
                 model.paused = true;
                 if (fc.showSaveDialog(view) == JFileChooser.APPROVE_OPTION) {
                     model.saveGame(fc.getSelectedFile());
@@ -83,7 +81,6 @@ public class Controller implements MouseListener, KeyListener, ActionListener {
                 model.paused = prevPaused;
                 break;
             case "Load":
-                System.out.println("Loading game");
                 model.paused = true;
                 if (fc.showOpenDialog(view) == JFileChooser.APPROVE_OPTION) {
                     model.loadGame(fc.getSelectedFile());
