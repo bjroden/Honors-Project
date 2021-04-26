@@ -7,6 +7,7 @@ import java.awt.event.MouseListener;
 import java.awt.event.KeyListener;
 import java.awt.event.ActionListener;
 
+//User inputs
 public class Controller implements MouseListener, KeyListener, ActionListener {
     Model model;
     View view;
@@ -18,6 +19,7 @@ public class Controller implements MouseListener, KeyListener, ActionListener {
         s.start();
     }
 
+    //Called by SpriteMover to advance game 1 tick
     public void update() {
         model.update();
         view.repaint();
@@ -27,12 +29,14 @@ public class Controller implements MouseListener, KeyListener, ActionListener {
         return model.paused;
     }
 
-    public void mouseEntered(MouseEvent e) {
+    //Dummy methods
+    public void mouseEntered(MouseEvent e) {}
+    public void mouseExited(MouseEvent e) {}
+    public void mouseClicked(MouseEvent e) {}
+    public void keyPressed(KeyEvent e) {}
+    public void keyReleased(KeyEvent e) {}
 
-    }
-    public void mouseExited(MouseEvent e) {
-
-    }
+    //Ball actions
     public void mouseReleased(MouseEvent e) {
         model.ballReleased(e.getX(), e.getY());
 
@@ -40,14 +44,8 @@ public class Controller implements MouseListener, KeyListener, ActionListener {
     public void mousePressed(MouseEvent e) {
         model.setBallClicked(e.getX(), e.getY());
     }
-    public void mouseClicked(MouseEvent e) {
 
-    }
-    public void keyPressed(KeyEvent e) {
-    }
-    public void keyReleased(KeyEvent e) {
-
-    }
+    //Key actions
     public void keyTyped(KeyEvent e) {
         switch(e.getKeyChar()) {
             case 'p':
@@ -69,7 +67,6 @@ public class Controller implements MouseListener, KeyListener, ActionListener {
 
     //Perform appropriate button action
     public void actionPerformed(ActionEvent e) {
-        //TODO: implement
         boolean prevPaused = model.paused;
         final JFileChooser fc = new JFileChooser("./");
         switch(e.getActionCommand()) {

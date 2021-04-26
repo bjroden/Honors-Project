@@ -1,3 +1,4 @@
+//Sprite with generic movement
 public class MovingSprite extends Sprite {
     protected boolean moving;
     protected double moveXRatio;
@@ -36,6 +37,7 @@ public class MovingSprite extends Sprite {
         this.movePower = power;
     }
 
+    //Getters
     public boolean getMoving() { return moving; }
     public double getMoveXRatio() { return moveXRatio; }
     public double getMoveYRatio() { return moveYRatio; }
@@ -44,7 +46,6 @@ public class MovingSprite extends Sprite {
     @Override public void updateState() {
         if(moving) {
             double multiplier;
-            //TODO: more complex logic
             if (moveXRatio == 0 && moveYRatio == 0) {
                 multiplier = 0;
             }

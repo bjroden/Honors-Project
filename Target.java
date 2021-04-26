@@ -1,3 +1,4 @@
+//All targets must be collected before a level can be completed
 public class Target extends MovingObstacle {
     Target(int x, int y, int height, int width) {
         super("images/blueSquare.png", x, y, height, width);

@@ -30,10 +30,16 @@ class Sprite
 		this.width = width;
 	}
 	
+	//Getters
+	public Image getImage() { return image; }	
 	public int getX() {	return locationX; }
 	public int getY() {	return locationY; }
     public int getWidth() { return width; }
     public int getHeight() { return height; }
+	public int getCenterX() { return locationX + (width / 2); }
+	public int getCenterY() { return locationY + (height / 2); }
+
+	//Setters
 	public void setX(int x) { locationX = x; }
 	public void setY(int y) { locationY = y; }
     public void setWidth(int w) { width = w; }
@@ -46,8 +52,8 @@ class Sprite
             System.out.println("Unable to load image file.");
         }
 	}
-	public Image getImage() { return image; }	
 	
+	//Inherited by other classes
 	public void updateState() {
 
 	}
@@ -56,15 +62,7 @@ class Sprite
         g.drawImage(getImage(), getX(), getY(), getWidth(), getHeight(), null);
 	}
 
-	public int getCenterX() {
-		return locationX + (width / 2);
-	}
-
-	public int getCenterY() {
-		return locationY + (height / 2);
-	}
-
-	//TODO: double check that this is fixed
+	//Return true if this overlaps s
 	public boolean overlaps(Sprite s) {
 		boolean xOverlap = (this.getX() + this.getWidth() > s.getX() && s.getX() + s.getWidth() > this.getX());
 		boolean yOverlap = (this.getY() + this.getHeight() > s.getY() && s.getY() + s.getHeight() > this.getY());

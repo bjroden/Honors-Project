@@ -6,6 +6,7 @@ import javax.sound.sampled.Clip;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 
+//Sound manager for specific clips
 public class SoundPlayer implements LineListener {
     public enum sound {BOUNCE, TARGET, RESET, GOAL, LAUNCH};
 
@@ -29,12 +30,14 @@ public class SoundPlayer implements LineListener {
         launchPlaying = false;
     }
 
+    //Launchpad sfx must complete before playing again
     public void update(LineEvent event) {
         if(event.getType().equals(LineEvent.Type.STOP)) {
             launchPlaying = false;
         }
     }
 
+    //Play specified sound
     public void playSound(sound s) {
         Clip playClip = null;
             switch(s) {
@@ -56,6 +59,7 @@ public class SoundPlayer implements LineListener {
                 default:
             }
         if(playClip != null) {
+            //Launchpad sfx must complete before playing again
             if(s == sound.LAUNCH) {
                 if(!launchPlaying) {
                     playClip.stop();
@@ -72,6 +76,7 @@ public class SoundPlayer implements LineListener {
         }
     }
 
+    //Initial audio loads
     private Clip loadSound(String sound) {
         Clip clip = null;
         try {

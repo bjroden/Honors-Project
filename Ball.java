@@ -7,6 +7,7 @@ public class Ball extends MovingSprite {
         super("images/ball.png", x, y, height, width, moving, xRatio, yRatio, power);
     }
 
+    //Get mouse coordinates and determine move direction and power
     public void startMove(int mouseX, int mouseY) {
         int maxX = 19;
         int maxY = 19;
@@ -33,6 +34,7 @@ public class Ball extends MovingSprite {
         }
     }
 
+    //Start move from a launchPad
     public void startMove(LaunchPad x) {
         LaunchPad.direction dir = x.getDirection();
         switch(dir) {
@@ -60,7 +62,6 @@ public class Ball extends MovingSprite {
     }
 
     public void bounce(Sprite s) {
-        //TODO: clean this up, corners can bug out
         boolean bounced = false;
         if(this.getCenterX() > s.getX() && this.getCenterX() < s.getX() + s.getWidth()) {
             moveYRatio *= -1;
@@ -75,12 +76,11 @@ public class Ball extends MovingSprite {
             moveXRatio *= -1;
         }
 
-        //TODO: Get stuck in walls less, probably wanna do something different
+        //Move 1 tick to get stuck in walls less
         super.updateState();
     }
 
     @Override public void updateState() {
-        //TODO:
         super.updateState();
         if(locationX + width > Model.mapWidth || getCenterX() < 0) {
             moveXRatio *= -1;

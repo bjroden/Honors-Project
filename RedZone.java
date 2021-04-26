@@ -1,3 +1,4 @@
+//Red zones that reset player to starting position
 public class RedZone extends MovingObstacle {
     RedZone(int x, int y, int height, int width) {
         super("images/redSquare.png", x, y, height, width);

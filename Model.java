@@ -32,10 +32,128 @@ public class Model {
         ballClicked = false;
         numTargets = 0;
         scoreBoard = new int[6];
-
         soundplayer = new SoundPlayer();
 
         loadLevel(1);
+    }
+
+    //Getters
+    public boolean getBallClicked() { return ballClicked; }
+    public Ball getBall() { return ball; }
+    public int getStrokes() { return strokes; }
+    public int getLevel() { return currentLevel; }
+    public ArrayList<Sprite> getSprites() { return sprites; }
+
+    //Advance game by 1 tick
+    public void update() {
+        //Update sprites
+        synchronized(sprites) {
+            Iterator<Sprite> iter = sprites.iterator();
+            while(iter.hasNext()) {
+                iter.next().updateState();
+            }
+        }
+
+        //Update Ball
+        ball.updateState();
+
+        //Check for collisions
+        synchronized(sprites) {
+            Iterator<Sprite> iter = sprites.iterator();
+            while(iter.hasNext()) {
+                Sprite s = iter.next();
+                if(ball.overlaps(s)) {
+                    if(s instanceof RedZone) {
+                        resetBall();
+                        soundplayer.playSound(SoundPlayer.sound.RESET);
+                    }
+                    else if(s instanceof Target) {
+                        removeTarget(s);
+                        soundplayer.playSound(SoundPlayer.sound.TARGET);
+                        //Prevents ConcurrentModificationException
+                        iter=sprites.iterator();
+                    }
+                    else if(s instanceof Goal) {
+                        if(numTargets <= 0) {
+                            soundplayer.playSound(SoundPlayer.sound.GOAL);
+                            loadLevel(currentLevel + 1);
+                            return;
+                        }
+                    }
+                    else if(s instanceof Wall && ball.getMoving()) {
+                        ball.bounce(s);
+                        soundplayer.playSound(SoundPlayer.sound.BOUNCE);
+                    }
+                    else if(s instanceof LaunchPad) {
+                        ball.startMove(((LaunchPad) s));
+                        soundplayer.playSound(SoundPlayer.sound.LAUNCH);
+                    }
+                }
+            }
+        }
+    }
+
+
+    //Set ball to level's starting position
+    private void resetBall() {
+        ball = new Ball(startBallx, startBally);
+    }
+
+    //See if ball is clicked, used by View to draw line
+    public void setBallClicked(int xcoord, int ycoord) {
+        if (!paused) {
+            boolean withinX = (xcoord > ball.getX() && xcoord < ball.getX() + ball.getWidth());
+            boolean withinY = (ycoord > ball.getY() && ycoord < ball.getY() + ball.getHeight());
+            ballClicked = (withinX && withinY);
+        }
+    }
+
+    //If ball released, start movement
+    public void ballReleased(int mouseX, int mouseY) {
+        if(ballClicked) {
+            ball.startMove(mouseX, mouseY);
+            strokes++;
+        }
+        ballClicked = false;
+    }
+
+    //Remove target and update goals if needed
+    public void removeTarget(Sprite s) {
+        sprites.remove(s);
+        numTargets -= 1;
+        if (numTargets <= 0) {
+            readyGoals();
+        }
+    }
+
+    //Initializes number of targets used for goal counts
+    public void setNumTargets() {
+        int newNumTargets = 0;
+        Iterator<Sprite> iter = sprites.iterator();
+        while(iter.hasNext()) {
+            if(iter.next() instanceof Target) {
+                newNumTargets++;
+            }
+        }
+        numTargets = newNumTargets;
+        if (numTargets <= 0) {
+            readyGoals();
+        }
+    }
+
+    //When zero targets exist, turn goals green
+    public void readyGoals() {
+        Iterator<Sprite> iter = sprites.iterator();
+        while(iter.hasNext()) {
+            Sprite x = iter.next();
+            if(x instanceof Goal) {
+                ((Goal) x).setReady();
+            }
+        }
+    }
+    //Show scores for each level
+    public void showScores() {
+        JOptionPane.showMessageDialog(null, String.format("Your scores are: %d, %d, %d, %d, %d, %d\nThe par times are: %d %d %d %d %d %d\n", scoreBoard[0], scoreBoard[1], scoreBoard[2], scoreBoard[3], scoreBoard[4], scoreBoard[5], parTimes[0],  parTimes[1],  parTimes[2],  parTimes[3],  parTimes[4],  parTimes[5]));
     }
 
     public void saveGame(File file) {
@@ -121,7 +239,7 @@ public class Model {
 
             //Read sprites
             while ((line = reader.readLine()) != null) {
-                //TODO: initialize different?
+                //Temp variables
                 boolean mov = false;;
                 int x = 0, y, h = 0, w = 0, x1 = 0, x2 = 0, y1 = 0, y2 = 0, lPow = 0;
                 double xR = 0, yR = 0, pow = 0;
@@ -172,7 +290,7 @@ public class Model {
                         throw new IOException("Error reading file contents");
                 }
             }
-            //Initialize model
+            //Initialize model if no exceptions
             paused = newPaused;
             startBallx = newStartX;
             startBally = newStarty;
@@ -185,6 +303,7 @@ public class Model {
             ball = newBall;
             sprites = newSprites;
 
+            //Set goals to green
             if(numTargets <= 0) {
                 readyGoals();
             }
@@ -204,84 +323,7 @@ public class Model {
 
     }
 
-    public void update() {
-        synchronized(sprites) {
-            Iterator<Sprite> iter = sprites.iterator();
-            while(iter.hasNext()) {
-                iter.next().updateState();
-            }
-        }
-
-        ball.updateState();
-
-        synchronized(sprites) {
-            Iterator<Sprite> iter = sprites.iterator();
-            while(iter.hasNext()) {
-                Sprite s = iter.next();
-                if(ball.overlaps(s)) {
-                    if(s instanceof RedZone) {
-                        resetBall();
-                        soundplayer.playSound(SoundPlayer.sound.RESET);
-                    }
-                    else if(s instanceof Target) {
-                        removeTarget(s);
-                        //TODO: added to prevent concurrentModification exception, double check 
-                        soundplayer.playSound(SoundPlayer.sound.TARGET);
-                        iter=sprites.iterator();
-                    }
-                    else if(s instanceof Goal) {
-                        if(numTargets <= 0) {
-                            soundplayer.playSound(SoundPlayer.sound.GOAL);
-                            loadLevel(currentLevel + 1);
-                            return;
-                        }
-                    }
-                    else if(s instanceof Wall && ball.getMoving()) {
-                        ball.bounce(s);
-                        soundplayer.playSound(SoundPlayer.sound.BOUNCE);
-                    }
-                    else if(s instanceof LaunchPad) {
-                        ball.startMove(((LaunchPad) s));
-                        soundplayer.playSound(SoundPlayer.sound.LAUNCH);
-                    }
-                }
-            }
-        }
-    }
-
-
-    private void resetBall() {
-        ball = new Ball(startBallx, startBally);
-    }
-
-    public ArrayList<Sprite> getSprites() {
-        return sprites;
-    }
-
-    public void setBallClicked(int xcoord, int ycoord) {
-        if (!paused) {
-            boolean withinX = (xcoord > ball.getX() && xcoord < ball.getX() + ball.getWidth());
-            boolean withinY = (ycoord > ball.getY() && ycoord < ball.getY() + ball.getHeight());
-            ballClicked = (withinX && withinY);
-        }
-    }
-
-    public void ballReleased(int mouseX, int mouseY) {
-        if(ballClicked) {
-            ball.startMove(mouseX, mouseY);
-            strokes++;
-        }
-        ballClicked = false;
-    }
-
-    public boolean getBallClicked() {
-        return ballClicked;
-    }
-
-    public Ball getBall() {
-        return ball;
-    }
-
+    //Level data
     public void loadLevel(int level) {
         paused = true;
         switch(level) {
@@ -452,49 +494,5 @@ public class Model {
         ball = new Ball(startBallx, startBally);
         setNumTargets();
         paused = false;
-    }
-
-    public void removeTarget(Sprite s) {
-        sprites.remove(s);
-        numTargets -= 1;
-        if (numTargets <= 0) {
-            readyGoals();
-        }
-    }
-
-    public void setNumTargets() {
-        int newNumTargets = 0;
-        Iterator<Sprite> iter = sprites.iterator();
-        while(iter.hasNext()) {
-            if(iter.next() instanceof Target) {
-                newNumTargets++;
-            }
-        }
-        numTargets = newNumTargets;
-        if (numTargets <= 0) {
-            readyGoals();
-        }
-    }
-
-    public void readyGoals() {
-        Iterator<Sprite> iter = sprites.iterator();
-        while(iter.hasNext()) {
-            Sprite x = iter.next();
-            if(x instanceof Goal) {
-                ((Goal) x).setReady();
-            }
-        }
-    }
-
-    public int getStrokes() {
-        return strokes;
-    }
-
-    public int getLevel() {
-        return currentLevel;
-    }
-
-    public void showScores() {
-        JOptionPane.showMessageDialog(null, String.format("Your scores are: %d, %d, %d, %d, %d, %d\nThe par times are: %d %d %d %d %d %d\n", scoreBoard[0], scoreBoard[1], scoreBoard[2], scoreBoard[3], scoreBoard[4], scoreBoard[5], parTimes[0],  parTimes[1],  parTimes[2],  parTimes[3],  parTimes[4],  parTimes[5]));
     }
 }

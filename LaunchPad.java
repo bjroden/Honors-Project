@@ -1,3 +1,4 @@
+//Launches player in certain direction with a certain power
 public class LaunchPad extends MovingObstacle {
     public enum direction {UP, DOWN, LEFT, RIGHT};
     private direction dir;
@@ -27,14 +28,11 @@ public class LaunchPad extends MovingObstacle {
         this.launchPower = lPow;
     }
 
-    public direction getDirection() {
-        return dir;
-    }
+    //Getters
+    public direction getDirection() { return dir; }
+    public int getLaunchPower() { return launchPower; }
 
-    public int getLaunchPower() {
-        return launchPower;
-    }
-
+    //Image rotations
     private static String selectImage(direction dir) {
         String returnString = null;
         switch(dir) {

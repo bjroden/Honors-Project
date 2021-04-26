@@ -1,3 +1,4 @@
+//Calls update on controller n times per second, where n = frameRate
 public class SpriteMover implements Runnable{
     Controller controller;
     final static public int frameRate = 60;
@@ -10,16 +11,16 @@ public class SpriteMover implements Runnable{
     public void run() {
         while(true) {
             if (!controller.getPaused()) {
-                moveTest();
+                updateGame();
             }
             try {
                 Thread.sleep(1000/frameRate);
-            } catch(InterruptedException e) {}
+            }
+            catch(InterruptedException e) {}
         }
     }
 
-    private void moveTest() {
+    private void updateGame() {
         controller.update();
     }
-    
 }

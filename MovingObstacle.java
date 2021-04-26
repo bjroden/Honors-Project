@@ -1,4 +1,4 @@
-//This class lets objects like targets and killzones move
+//This class adds movement bounds for objects like targets and redzones
 public class MovingObstacle extends MovingSprite {
     public enum XorY {moveX, moveY};
     protected int x1;
@@ -43,6 +43,13 @@ public class MovingObstacle extends MovingSprite {
         this.y2 = y2;
     }
 
+    //Getters
+    public int getX1() { return x1; }
+    public int getX2() { return x2; }
+    public int getY1() { return y1; }
+    public int getY2() { return y2; }
+
+    //Move + change direction
     @Override public void updateState() {
         super.updateState();
         if (locationX < x1 || locationX > x2) {
@@ -52,8 +59,4 @@ public class MovingObstacle extends MovingSprite {
             moveYRatio *= -1;
         }
     }
-    public int getX1() { return x1; }
-    public int getX2() { return x2; }
-    public int getY1() { return y1; }
-    public int getY2() { return y2; }
 }

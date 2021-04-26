@@ -9,6 +9,7 @@ import javax.swing.JMenuItem;
 import javax.swing.JMenuBar;
 import javax.swing.JOptionPane;
 
+//Main game screen
 public class View extends JFrame {
     Model model;
 
@@ -18,7 +19,6 @@ public class View extends JFrame {
         addKeyListener(c);
 
         setDefaultCloseOperation(EXIT_ON_CLOSE);
-        //TODO:
         setSize(Model.mapWidth, Model.mapHeight + 20);
         setResizable(false);
         setTitle("World's Hardest Golf");
