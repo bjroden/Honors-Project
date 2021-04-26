@@ -3,7 +3,6 @@ public class LaunchPad extends MovingObstacle {
     private direction dir;
     private int launchPower;
 
-    //TODO: rotate image
     LaunchPad(int x, int y, int height, int width, direction dir, int lPow) {
         super(selectImage(dir), x, y, height, width);
         this.dir = dir; 
