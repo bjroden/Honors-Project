@@ -435,7 +435,7 @@ public class Model {
                     sprites.add(new Wall(700, 0, 800, 40));
                     sprites.add(new Wall(300, 400, 50, 250));
                     sprites.add(new Wall(510, 450, 300, 40));
-                    sprites.add(new RedZone(320, 370, 30, 220));
+                    sprites.add(new RedZone(310, 370, 30, 230));
                     sprites.add(new RedZone(140, 730, 50, 560));
                     sprites.add(new LaunchPad(600, 140, 40, 40, MovingObstacle.XorY.moveX, 15, 150, 600, LaunchPad.direction.DOWN, 60));
                     sprites.add(new LaunchPad(150, 240, 40, 40, MovingObstacle.XorY.moveX, 15, 150, 600, LaunchPad.direction.DOWN, 60));
