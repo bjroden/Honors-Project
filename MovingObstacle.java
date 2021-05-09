@@ -18,25 +18,27 @@ public class MovingObstacle extends MovingSprite {
         if(XorY == MovingObstacle.XorY.moveX) {
             x1 = loc1;
             x2 = loc2;
-            moveXRatio = 1;
+            y2 = Model.mapHeight;
+            moveDirection = Math.toRadians(0);
         }
         else {
             y1 = loc1;
             y2 = loc2;
-            moveYRatio = 1;
+            x2 = Model.mapWidth;
+            moveDirection = Math.toRadians(90);
         }
     }
 
-    MovingObstacle(String imagePath, int x, int y, int height, int width, double xRatio, double yRatio, double movePower, int x1, int x2, int y1, int y2) {
-        super(imagePath, x, y, height, width, xRatio, yRatio, movePower);
+    MovingObstacle(String imagePath, int x, int y, int height, int width, double moveDirection, double movePower, int x1, int x2, int y1, int y2) {
+        super(imagePath, x, y, height, width, moveDirection, movePower);
         this.x1 = x1;
         this.x2 = x2;
         this.y1 = y1;
         this.y2 = y2;
     }
 
-    MovingObstacle(String imagePath, int x, int y, int height, int width, boolean moving, double xRatio, double yRatio, double movePower, int x1, int x2, int y1, int y2) {
-        super(imagePath, x, y, height, width, moving, xRatio, yRatio, movePower);
+    MovingObstacle(String imagePath, int x, int y, int height, int width, boolean moving, double moveDirection, double movePower, int x1, int x2, int y1, int y2) {
+        super(imagePath, x, y, height, width, moving, moveDirection, movePower);
         this.x1 = x1;
         this.x2 = x2;
         this.y1 = y1;
@@ -52,11 +54,13 @@ public class MovingObstacle extends MovingSprite {
     //Move + change direction
     @Override public void updateState() {
         super.updateState();
-        if (locationX < x1 || locationX > x2) {
-            moveXRatio *= -1;
-        }
-        if (locationY < y1 || locationY > y2) {
-            moveYRatio *= -1;
+        if (moving) {
+            if (locationX < x1 || locationX > x2) {
+                moveDirection = Math.PI - moveDirection;
+            }
+            if (locationY < y1 || locationY > y2) {
+                moveDirection = 2 * Math.PI - moveDirection;
+            }
         }
     }
 }

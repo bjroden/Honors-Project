@@ -16,14 +16,14 @@ public class LaunchPad extends MovingObstacle {
         this.launchPower = lPow;
     }
 
-    LaunchPad(int x, int y, int height, int width, double xRatio, double yRatio, double movePower, int x1, int x2, int y1, int y2, direction dir, int lPow) {
-        super(selectImage(dir), x, y, height, width, xRatio, yRatio, movePower, x1, x2, y1, y2);
+    LaunchPad(int x, int y, int height, int width, double moveDirection, double movePower, int x1, int x2, int y1, int y2, direction dir, int lPow) {
+        super(selectImage(dir), x, y, height, width, moveDirection, movePower, x1, x2, y1, y2);
         this.dir = dir; 
         this.launchPower = lPow;
     }
 
-    LaunchPad(int x, int y, int height, int width, boolean moving, double xRatio, double yRatio, double movePower, int x1, int x2, int y1, int y2, direction dir, int lPow) {
-        super(selectImage(dir), x, y, height, width, moving, xRatio, yRatio, movePower, x1, x2, y1, y2);
+    LaunchPad(int x, int y, int height, int width, boolean moving, double moveDirection, double movePower, int x1, int x2, int y1, int y2, direction dir, int lPow) {
+        super(selectImage(dir), x, y, height, width, moving, moveDirection, movePower, x1, x2, y1, y2);
         this.dir = dir;
         this.launchPower = lPow;
     }

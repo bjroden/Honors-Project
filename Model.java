@@ -157,6 +157,7 @@ public class Model {
     }
 
     public void saveGame(File file) {
+        /*
         try(BufferedWriter writer = new BufferedWriter(new FileWriter(file))) {
             //Write model
             writer.write(String.format("Model %b %d %d %d %d %d", paused, startBallx, startBally, currentLevel, numTargets, strokes));
@@ -188,9 +189,11 @@ public class Model {
         catch(IOException e) {
             JOptionPane.showMessageDialog(null, e.getMessage());
         }
+        */
     }
     
     public void loadGame(File file) {
+        /*
         try(BufferedReader reader = new BufferedReader(new FileReader(file))) {
             ArrayList<Sprite> newSprites = new ArrayList<Sprite>();
             String line;
@@ -320,6 +323,7 @@ public class Model {
         catch(Exception e) {
             JOptionPane.showMessageDialog(null, "Error reading save file.");
         }
+        */
 
     }
 
@@ -475,10 +479,12 @@ public class Model {
                 startBally = 200;
                 synchronized(sprites) {
                     sprites.clear();
+                    /*
                     sprites.add(new Secret(0, 0, 1, 1));
                     sprites.add(new Secret(0, 700, -1, 1));
                     sprites.add(new Secret(700, 0, 1, -1));
                     sprites.add(new Secret(700, 700, -1, -1));
+                    */
                 }
                 break;
             default:

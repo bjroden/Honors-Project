@@ -3,34 +3,25 @@ public class Ball extends MovingSprite {
         super("images/ball.png", x, y, 40, 40);
     }
 
-    Ball(int x, int y, int height, int width, boolean moving, double xRatio, double yRatio, double power) {
-        super("images/ball.png", x, y, height, width, moving, xRatio, yRatio, power);
+    Ball(int x, int y, int height, int width, boolean moving, double moveDirection, double power) {
+        super("images/ball.png", x, y, height, width, moving, moveDirection, power);
     }
 
     //Get mouse coordinates and determine move direction and power
     public void startMove(int mouseX, int mouseY) {
-        int maxX = 19;
-        int maxY = 19;
+        final int maxSpeed = 26;
 
-        int distX = (getX() + (getWidth() / 2) - mouseX) / 4;
-        int distY = (getY() + (getHeight() / 2) - mouseY) / 4;
-
-        if(Math.abs(distX) > maxX) {
-            distX = maxX * (int) Math.signum(distX);
-        }
-        if(Math.abs(distY) > maxY) {
-            distY = maxY * (int) Math.signum(distY);
-        }
-
+        int distX = getX() + (getWidth() / 2) - mouseX;
+        int distY = getY() + (getHeight() / 2) - mouseY;
         double distance = Math.sqrt(Math.pow(distX, 2) + Math.pow(distY, 2));
-        if (distance == 0) {
-            moving = false;
+
+        moving = true;
+        moveDirection = Math.atan2(mouseY - getY(), getCenterX() - mouseX);
+        if(distance > maxSpeed * 4) {
+            movePower = 26;
         }
         else {
-            moving = true;
-            moveXRatio = distX / distance;
-            moveYRatio = distY / distance;
-            movePower = (int) distance;
+            movePower = distance / 4;
         }
     }
 
@@ -39,20 +30,16 @@ public class Ball extends MovingSprite {
         LaunchPad.direction dir = x.getDirection();
         switch(dir) {
             case UP:
-                moveXRatio = 0;
-                moveYRatio = -1;
+                moveDirection = Math.toRadians(90);
                 break;
             case DOWN:
-                moveXRatio = 0;
-                moveYRatio = 1;
+                moveDirection = Math.toRadians(270);
                 break;
             case LEFT:
-                moveXRatio = -1;
-                moveYRatio = 0;
+                moveDirection = Math.toRadians(180);
                 break;
             case RIGHT:
-                moveXRatio = 1;
-                moveYRatio = 0;
+                moveDirection = Math.toRadians(0);
                 break;
             default:
                 System.out.println("Startmove switch made impossible command");
@@ -64,16 +51,15 @@ public class Ball extends MovingSprite {
     public void bounce(Sprite s) {
         boolean bounced = false;
         if(this.getCenterX() > s.getX() && this.getCenterX() < s.getX() + s.getWidth()) {
-            moveYRatio *= -1;
+            moveDirection = 2 * Math.PI - moveDirection;
             bounced = true;
         }
         else if(this.getCenterY() > s.getY() && this.getY() < s.getCenterY() + s.getHeight()) {
-            moveXRatio *= -1;
+            moveDirection = Math.PI - moveDirection;
             bounced = true;
         }
         if (!bounced) {
-            moveYRatio *= -1;
-            moveXRatio *= -1;
+            moveDirection += Math.toRadians(180);
         }
 
         //Move 1 tick to get stuck in walls less
@@ -83,10 +69,10 @@ public class Ball extends MovingSprite {
     @Override public void updateState() {
         super.updateState();
         if(locationX + width > Model.mapWidth || getCenterX() < 0) {
-            moveXRatio *= -1;
+            moveDirection = Math.PI - moveDirection;
         }
         if(locationY + height > Model.mapHeight || getCenterY() < 0) {
-            moveYRatio *= -1;
+            moveDirection = 2 * Math.PI - moveDirection;
         }
         if(movePower <= 0) {
             moving = false;
