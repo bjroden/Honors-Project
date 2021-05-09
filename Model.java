@@ -157,7 +157,6 @@ public class Model {
     }
 
     public void saveGame(File file) {
-        /*
         try(BufferedWriter writer = new BufferedWriter(new FileWriter(file))) {
             //Write model
             writer.write(String.format("Model %b %d %d %d %d %d", paused, startBallx, startBally, currentLevel, numTargets, strokes));
@@ -166,7 +165,7 @@ public class Model {
             }
             writer.write("\n");
             //Write ball
-            writer.write(String.format("Ball %d %d %d %d %b %f %f %f\n", ball.getX(), ball.getY(), ball.getHeight(), ball.getWidth(), ball.getMoving(), ball.getMoveXRatio(), ball.getMoveYRatio(), ball.getMovePower()));
+            writer.write(String.format("Ball %d %d %d %d %b %f %f\n", ball.getX(), ball.getY(), ball.getHeight(), ball.getWidth(), ball.getMoving(), ball.getMoveDirection(), ball.getMovePower()));
             
             //Write sprites
             synchronized(sprites) {
@@ -176,7 +175,7 @@ public class Model {
                     writer.write(String.format("%s %d %d %d %d", x.getClass().getName(), x.getX(), x.getY(), x.getHeight(), x.getWidth()));
                     if (x instanceof MovingObstacle) {
                         MovingObstacle o = ((MovingObstacle) x);
-                        writer.write(String.format(" %b %f %f %f %d %d %d %d", o.getMoving(), o.getMoveXRatio(), o.getMoveYRatio(), o.getMovePower(), o.getX1(), o.getX2(), o.getY1(), o.getY2()));
+                        writer.write(String.format(" %b %f %f %d %d %d %d", o.getMoving(), o.getMoveDirection(), o.getMovePower(), o.getX1(), o.getX2(), o.getY1(), o.getY2()));
                     }
                     if (x instanceof LaunchPad) {
                         LaunchPad l = (LaunchPad) x;
@@ -189,11 +188,9 @@ public class Model {
         catch(IOException e) {
             JOptionPane.showMessageDialog(null, e.getMessage());
         }
-        */
     }
     
     public void loadGame(File file) {
-        /*
         try(BufferedReader reader = new BufferedReader(new FileReader(file))) {
             ArrayList<Sprite> newSprites = new ArrayList<Sprite>();
             String line;
@@ -233,11 +230,10 @@ public class Model {
                 int ballHeight = Integer.parseInt(nums[3]);
                 int ballWidth = Integer.parseInt(nums[4]);
                 boolean ballMoving = Boolean.parseBoolean(nums[5]) ;
-                double moveX = Double.parseDouble(nums[6]); 
-                double moveY = Double.parseDouble(nums[7]); 
-                double movePower = Double.parseDouble(nums[8]);
+                double moveDirection = Double.parseDouble(nums[6]); 
+                double movePower = Double.parseDouble(nums[7]);
 
-                newBall = new Ball(ballX, ballY, ballHeight, ballWidth, ballMoving, moveX, moveY, movePower);
+                newBall = new Ball(ballX, ballY, ballHeight, ballWidth, ballMoving, moveDirection, movePower);
             }
 
             //Read sprites
@@ -245,7 +241,7 @@ public class Model {
                 //Temp variables
                 boolean mov = false;;
                 int x = 0, y, h = 0, w = 0, x1 = 0, x2 = 0, y1 = 0, y2 = 0, lPow = 0;
-                double xR = 0, yR = 0, pow = 0;
+                double moveDir = 0, pow = 0;
                 LaunchPad.direction dir = LaunchPad.direction.UP;
 
                 nums = line.split("\\s+");
@@ -255,27 +251,26 @@ public class Model {
                 w = Integer.parseInt(nums[4]);
                 if(nums[0].equals("RedZone") || nums[0].equals("Target") || nums[0].equals("LaunchPad") || nums[0].equals("Secret")) {
                     mov = Boolean.parseBoolean(nums[5]);
-                    xR = Double.parseDouble(nums[6]);
-                    yR = Double.parseDouble(nums[7]);
-                    pow = Double.parseDouble(nums[8]);
-                    x1 = Integer.parseInt(nums[9]);
-                    x2 = Integer.parseInt(nums[10]);
-                    y1 = Integer.parseInt(nums[11]);
-                    y2 = Integer.parseInt(nums[12]);
+                    moveDir = Double.parseDouble(nums[6]);
+                    pow = Double.parseDouble(nums[7]);
+                    x1 = Integer.parseInt(nums[8]);
+                    x2 = Integer.parseInt(nums[9]);
+                    y1 = Integer.parseInt(nums[10]);
+                    y2 = Integer.parseInt(nums[11]);
                 }
                 if(nums[0].equals("LaunchPad")) {
-                    dir = LaunchPad.direction.valueOf(nums[13]);
-                    lPow = Integer.parseInt(nums[14]);
+                    dir = LaunchPad.direction.valueOf(nums[12]);
+                    lPow = Integer.parseInt(nums[13]);
                 }
                 switch(nums[0]) {
                     case "RedZone":
-                        newSprites.add(new RedZone(x, y, h, w, mov, xR, yR, pow, x1, x2, y1, y2));
+                        newSprites.add(new RedZone(x, y, h, w, mov, moveDir, pow, x1, x2, y1, y2));
                         break;
                     case "Target":
-                        newSprites.add(new Target(x, y, h, w, mov, xR, yR, pow, x1, x2, y1, y2));
+                        newSprites.add(new Target(x, y, h, w, mov, moveDir, pow, x1, x2, y1, y2));
                         break;
                     case "LaunchPad":
-                        newSprites.add(new LaunchPad(x, y, h, w, mov, xR, yR, pow, x1, x2, y1, y2, dir, lPow));
+                        newSprites.add(new LaunchPad(x, y, h, w, mov, moveDir, pow, x1, x2, y1, y2, dir, lPow));
                         break;
                     case "Goal":
                         newSprites.add(new Goal(x, y, h, w));
@@ -287,7 +282,7 @@ public class Model {
                         newSprites.add(new EndScreen());
                         break;
                     case "Secret":
-                        newSprites.add(new Secret(x, y, xR, yR));
+                        newSprites.add(new Secret(x, y, moveDir));
                         break;
                     default:
                         throw new IOException("Error reading file contents");
@@ -323,7 +318,6 @@ public class Model {
         catch(Exception e) {
             JOptionPane.showMessageDialog(null, "Error reading save file.");
         }
-        */
 
     }
 
