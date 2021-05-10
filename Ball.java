@@ -11,12 +11,12 @@ public class Ball extends MovingSprite {
     public void startMove(int mouseX, int mouseY) {
         final int maxSpeed = 26;
 
-        int distX = getX() + (getWidth() / 2) - mouseX;
-        int distY = getY() + (getHeight() / 2) - mouseY;
+        int distX = getCenterX() - mouseX;
+        int distY = getCenterY() - mouseY;
         double distance = Math.sqrt(Math.pow(distX, 2) + Math.pow(distY, 2));
 
         moving = true;
-        moveDirection = Math.atan2(mouseY - getY(), getCenterX() - mouseX);
+        moveDirection = Math.atan2(mouseY - getCenterY(), getCenterX() - mouseX);
         if(distance > maxSpeed * 4) {
             movePower = 26;
         }
